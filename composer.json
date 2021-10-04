@@ -1,0 +1,29 @@
+{
+    "name": "yeganehha/daynamic-forms",
+    "description": "Create different forms for each part of the site, such as registration, which can be edited by the admin.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Yeganehha\\DynamicForms\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yeganehha\\DynamicForms\\DynamicFormsServiceProvider"
+            ],
+            "aliases": {
+                "DaynamicForms": "Yeganehha\\DynamicForms\\Facades\\DynamicFormsFacade"
+            }
+        }
+    },
+    "authors": [
+        {
+            "name": "Erfan Ebrahimi",
+            "email": "me@erfanebrahimi.ir"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
