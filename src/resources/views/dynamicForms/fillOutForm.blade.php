@@ -16,7 +16,7 @@
                 @foreach($field->valuesDe as $keyValue => $value)
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="{$value}" name="customField[{{$field->id}}][]" @if (old("customField.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) checked @endif > {{$value}}
+                        <input class="form-check-input" type="checkbox" value="{{$value}}" name="customField[{{$field->id}}][]" @if (old("customField.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) checked @endif > {{$value}}
                         <span class="form-check-sign"><span class="check"></span></span>
                     </label>
                 </div>
@@ -31,7 +31,7 @@
                 @foreach($field->valuesDe as $keyValue => $value)
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" value="{$value}" name="customField[{{$field->id}}]" @if (old("customField.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) checked @endif  > {{$value}}
+                        <input class="form-check-input" type="radio" value="{{$value}}" name="customField[{{$field->id}}]" @if (old("customField.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) checked @endif  > {{$value}}
                         <span class="circle"><span class="check"></span></span>
                     </label>
                 </div>
@@ -45,7 +45,7 @@
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
                 <select class="{{ $DynamicFormsStyle['Input'] }}" id="field_{{$field->id}}" name="customField[{{$field->id}}]" @if($field->status == 'required') required @endif>
                 @foreach($field->valuesDe as $keyValue => $value)
-                    <option value="{$value}" @if (old("customField.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) selected @endif>{{$value}}</option>
+                    <option value="{{$value}}" @if (old("customField.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) selected @endif>{{$value}}</option>
                 @endforeach
                 </select>
                 @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
