@@ -97,8 +97,8 @@ class DynamicForms
         return $this->_getModel($returnClass);
     }
 
-    public function fillOutForm($model){
-        $this->_fillOutForm($model);
+    public function fillOutForm($model, $autoDetectData = true){
+        $this->_fillOutForm($model,$autoDetectData);
         return $this;
     }
     public function showHidden($show = true){
