@@ -247,7 +247,8 @@ class DynamicForms
     private function getFillOutedForm($model){
         $fields = $this->getFields(true,$this->showHidden);
         $fieldsId = array_column($fields, 'id');
-        $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
+        if ( is_object($model) )
+            $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
         foreach ( $fields as $key => $field ){
             $fields[$key]['value'] = $values[$field['id']]['value'] ?? "";
             $fields[$key]['valuesDe'] = explode(',', $fields[$key]['values'] );
@@ -258,11 +259,13 @@ class DynamicForms
 
     public function fillOutForm($model){
         $this->isCalled();
-        if ( ! is_object($model) )
-            throw new \ErrorException("You Should Send Object of model!");
-        if ( get_class($model) != $this->form->model )
+        if ( ( is_object($model) and get_class($model) != $this->form->model ) or ( ! is_object($model) and $model != $this->form->model ) )
             throw new \ErrorException("This form just for `{$this->form->model}` Model !");
-        $this->isFillOutForm = $model->id ;
+
+        if ( ! is_object($model) )
+            $this->isFillOutForm = true ;
+        else
+            $this->isFillOutForm = $model->id ;
         $this->getFillOutedForm($model);
         return $this;
     }
