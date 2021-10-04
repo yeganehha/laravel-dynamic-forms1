@@ -8,7 +8,11 @@ class Forms extends Model
 {
     protected $fillable = ['name' , 'model' , 'external_table' ];
 
-    public function fields(){
-        return $this->hasMany(Fields::class);
+    public function fields($showHidden = true){
+        return (bool)$showHidden ?
+            $this->hasMany(Fields::class)->orderBy('order_number' ,'desc')
+            :
+            $this->hasMany(Fields::class)->where('status' , '!=' , 'hidden')->orderBy('order_number' ,'desc')
+            ;
     }
 }

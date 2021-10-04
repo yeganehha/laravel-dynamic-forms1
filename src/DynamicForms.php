@@ -5,12 +5,15 @@ use Hamcrest\Thingy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yeganehha\DynamicForms\Models\Fields;
+use Yeganehha\DynamicForms\Models\Fieldsvalue;
 use Yeganehha\DynamicForms\Models\Forms;
 
 class DynamicForms
 {
     private $form ;
     private $isFillOutForm = false ;
+    private $showHidden = false ;
+    private $FillOutedData = null ;
 
     /**
      * @param null $formName
@@ -102,9 +105,9 @@ class DynamicForms
      * @return mixed
      * @throws \ErrorException
      */
-    public function getFields($isArray = false){
+    public function getFields($isArray = false , $showHidden = false){
         $this->isCalled();
-        return $isArray ? $this->form->fields()->get()->toArray() : $this->form->fields()->get();
+        return $isArray ? $this->form->fields($showHidden)->get()->toArray() : $this->form->fields($showHidden)->get();
     }
 
 
@@ -241,6 +244,17 @@ class DynamicForms
         return $returnClass ? new $className() : $className ;
     }
 
+    private function getFillOutedForm($model){
+        $fields = $this->getFields(true,$this->showHidden);
+        $fieldsId = array_column($fields, 'id');
+        $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
+        foreach ( $fields as $key => $field ){
+            $fields[$key]['value'] = $values[$field['id']]['value'] ?? "";
+            $fields[$key]['valuesDe'] = explode(',', $fields[$key]['values'] );
+            $fieldExport[$key] = (object)$fields[$key];
+        }
+        $this->FillOutedData  = $fieldExport;
+    }
 
     public function fillOutForm($model){
         $this->isCalled();
@@ -249,28 +263,37 @@ class DynamicForms
         if ( get_class($model) != $this->form->model )
             throw new \ErrorException("This form just for `{$this->form->model}` Model !");
         $this->isFillOutForm = $model->id ;
+        $this->getFillOutedForm($model);
+        return $this;
+    }
+    public function showHidden($show = true){
+        $this->isCalled();
+        $this->showHidden = $show;
         return $this;
     }
 
     public function editForm(){
         $this->isCalled();
         $this->isFillOutForm = false ;
+        $this->showHidden = false ;
+        $this->FillOutedData = null;
         return $this;
     }
 
     public function view(){
         $this->isCalled();
-        if ( $this->isFillOutForm != false )
-            dd('sss');
-        else{
-            $moreField = isset(view()->getShared()['moreField']) ? view()->getShared()['moreField'] : [];
-            $moreField[$this->form->id] = $this->getFields();
-            $dynamicFormsType = isset(view()->getShared()['dynamicFormsType']) ? view()->getShared()['dynamicFormsType'] : [];
+        $dynamicFormsType = isset(view()->getShared()['dynamicFormsType']) ? view()->getShared()['dynamicFormsType'] : [];
+        $moreField = isset(view()->getShared()['moreField']) ? view()->getShared()['moreField'] : [];
+        if ( $this->isFillOutForm != false ) {
+            $moreField[$this->form->id] = $this->FillOutedData;
+            $dynamicFormsType[$this->form->id] = 'fillOut';
+        } else{
+            $moreField[$this->form->id] = $this->getFields(false,true);
             $dynamicFormsType[$this->form->id] = 'editForm';
-            view()->share('moreField',  $moreField);
-            view()->share('dynamicFormsType', $dynamicFormsType );
-            view()->share('DynamicFormsId' , $this->form->id);
         }
+        view()->share('moreField', $moreField);
+        view()->share('dynamicFormsType', $dynamicFormsType);
+        view()->share('DynamicFormsId', $this->form->id);
         return $this;
     }
 

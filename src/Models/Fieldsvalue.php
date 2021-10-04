@@ -9,11 +9,14 @@ class Fieldsvalue extends Model
 {
     protected $fillable = ['field_id','fieldable_id','value'];
 
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->attributes['fieldable_type'] = $this->field()->form()->model ;
-        dd($this->field()->form()->model);
+        if ( $this->field()->get()->toArray() != null ){
+            dd($this->field()->get()->toArray());
+            $this->attributes['fieldable_type'] = $this->field()->get()->form()->get()->model ;
+        }
     }
 
     public function field(){
