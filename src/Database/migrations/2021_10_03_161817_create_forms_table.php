@@ -41,7 +41,6 @@ class CreateFormsTable extends Migration
             $table->unsignedBigInteger('fieldable_id');
             $table->string('fieldable_type');
             $table->text('value')->nullable();
-            $table->timestamps();
         });
     }
 
