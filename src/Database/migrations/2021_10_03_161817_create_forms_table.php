@@ -27,8 +27,8 @@ class CreateFormsTable extends Migration
             $table->string('label');
             $table->text('description')->nullable();
             $table->text('font_icon')->nullable();
-            $table->json('values')->nullable();
-            $table->json('validate')->nullable();
+            $table->text('values')->nullable();
+            $table->text('validate')->nullable();
             $table->string('type_variable')->default('text');
             $table->enum('status',['show','hidden','required'])->default('show');
             $table->integer('order_number')->default(0);
