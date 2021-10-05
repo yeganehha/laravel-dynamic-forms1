@@ -97,6 +97,10 @@ class DynamicForms
         return $this->_getModel($returnClass);
     }
 
+    public function setfillOutData($data){
+        $this->_setfillOutData($data);
+        return $this;
+    }
     public function fillOutForm($model, $autoDetectData = true){
         $this->_fillOutForm($model,$autoDetectData);
         return $this;
@@ -118,5 +122,9 @@ class DynamicForms
 
     public function getId($ViewVariable = false){
         return $this->_getId($ViewVariable) ?? $this ;
+    }
+
+    public function getError(){
+        return $this->_getError();
     }
 }

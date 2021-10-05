@@ -4,8 +4,11 @@
         <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
         <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
             <div class="form-check">
-                <textarea rows="4" cols="50"  class="{{ $DynamicFormsStyle['Input'] }}" id="field_{{$field->id}}" @if($field->status == 'required') required @endif name="dynamicForms[{{$field->id}}]" >{{ old("dynamicForms.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) }}</textarea>
+                <textarea rows="4" cols="50"  class="{{ $DynamicFormsStyle['Input'] }} @error($field->label) is-invalid @enderror" id="field_{{$field->id}}" @if($field->status == 'required') required @endif name="dynamicForms[{{$field->id}}]" >{{ old("dynamicForms.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) }}</textarea>
             </div>
+            @error($field->label)
+            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+            @enderror
             @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
         </div>
     </div>
@@ -21,7 +24,10 @@
                     </label>
                 </div>
                 @endforeach
-                @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
+                @error($field->label)
+                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                @enderror
+                    @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
             </div>
         </div>
     @elseif($field->type_variable ==  'radio')
@@ -36,18 +42,24 @@
                     </label>
                 </div>
                 @endforeach
-                @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
+                @error($field->label)
+                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                @enderror
+                    @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
             </div>
         </div>
     @elseif($field->type_variable ==  'select')
         <div class="{{ $DynamicFormsStyle['Div'] }}">
             <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
-                <select class="{{ $DynamicFormsStyle['Input'] }}" id="field_{{$field->id}}" name="dynamicForms[{{$field->id}}]" @if($field->status == 'required') required @endif>
+                <select class="{{ $DynamicFormsStyle['Input'] }} @error($field->label) is-invalid @enderror" id="field_{{$field->id}}" name="dynamicForms[{{$field->id}}]" @if($field->status == 'required') required @endif>
                 @foreach($field->valuesDe as $keyValue => $value)
                     <option value="{{$value}}" @if (old("dynamicForms.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) selected @endif>{{$value}}</option>
                 @endforeach
                 </select>
+                @error($field->label)
+                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                @enderror
                 @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
             </div>
         </div>
@@ -57,7 +69,10 @@
         <div class="{{ $DynamicFormsStyle['Div'] }}">
             <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
-                <input type="{{ $field->type_variable }}"  id="field_{{$field->id}}" @if($field->status == 'required') required @endif name="dynamicForms[{{$field->id}}]" value="{{ old("dynamicForms.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) }}" class="{{ $DynamicFormsStyle['Input'] }}">
+                <input type="{{ $field->type_variable }}"  id="field_{{$field->id}}" @if($field->status == 'required') required @endif name="dynamicForms[{{$field->id}}]" value="{{ old("dynamicForms.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) }}" class="{{ $DynamicFormsStyle['Input'] }} @error($field->label) is-invalid @enderror">
+                @error($field->label)
+                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                @enderror
                 @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
             </div>
         </div>
