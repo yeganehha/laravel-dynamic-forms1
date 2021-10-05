@@ -27,7 +27,7 @@ trait FieldsTrait
                 $fieldFind->update($field);
                 $id = $fieldFind->id;
             } elseif ( $fieldFind->id != null ) {
-                throw new \ErrorException("Filed with id {$$fieldFind->id} is duplicated!");
+                throw new \ErrorException("Filed with id {$fieldFind->id} is duplicated!");
             } else {
                 $newField = $this->form->fields()->create($field);
                 $id = $newField->id;
