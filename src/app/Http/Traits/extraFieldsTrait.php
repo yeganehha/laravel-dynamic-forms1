@@ -1,6 +1,8 @@
 <?php
 namespace Yeganehha\DynamicForms\app\Http\Traits;
 
+use Illuminate\Support\Facades\URL;
+
 trait extraFieldsTrait{
     public function allValues(){
         return $this->morphMany(\Yeganehha\DynamicForms\Models\Fieldsvalue::class ,'fieldable');
@@ -20,12 +22,17 @@ trait extraFieldsTrait{
             $fieldsId = array_column($fields, 'id');
             $values = $this->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
             foreach ( $fields as $key => $field ){
+                $fields[$key]['valueFile'] = "";
+                $fields[$key]['value'] = $values[$field['id']]['value'] ?? "";
+                $fields[$key]['valuesDe'] = explode(',', $fields[$key]['values']);
+                if ( $field['type_variable'] == 'file' and $values[$field['id']]['value'] != null ){
+                    $fields[$key]['valueFile'] =  $values[$field['id']]['value'];
+                    $fields[$key]['value'] =  URL::temporarySignedRoute('dynamicForms.dl',now()->addMinutes(30) , ['path' => $values[$field['id']]['value'] ]);
+                }
                 if ( $AllInformation ) {
-                    $fields[$key]['value'] = $values[$field['id']]['value'] ?? "";
-                    $fields[$key]['valuesDe'] = explode(',', $fields[$key]['values']);
                     $fieldExport[$key] = (object)$fields[$key];
                 } else {
-                    $fieldExport[$key] = (object)['field_id' => $field['id'] , 'label' => $field['label'] , 'value' => $values[$field['id']]['value'] ?? "" , "type" => $field['type_variable'], "status" => $field['status'] ];
+                    $fieldExport[$key] = (object)['field_id' => $field['id'] , 'label' => $field['label'] , 'value' => $fields[$key]['value'] ?? "" ,  'valueFile' => $fields[$key]['valueFile'] , "type" => $field['type_variable'], "status" => $field['status'] ];
                 }
             }
             return $fieldExport;
