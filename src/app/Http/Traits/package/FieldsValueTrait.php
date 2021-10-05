@@ -4,6 +4,7 @@ namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -27,12 +28,13 @@ trait FieldsValueTrait
             $fields[$key]['value'] = $values[$field['id']]['value'] ?? "";
             if ( $field['type_variable'] == 'file' and ($fields[$key]['value'] != null or $fields[$key]['value'] != "") ) {
 //              $fields[$key]['downloadLink'] = URL::temporarySignedRoute('dynamicForms.dl',now()->addMinutes(30) , ['path' => $fields[$key]['value']]);
+                $fields[$key]['valueFile'] =  $fields[$key]['value'];
+                $fields[$key]['valueHash'] =  Hash::make($fields[$key]['value']);
                 $fields[$key]['value'] =  URL::temporarySignedRoute('dynamicForms.dl',now()->addMinutes(30) , ['path' => $fields[$key]['value']]);
             }
             $fields[$key]['valuesDe'] = explode(',', $fields[$key]['values'] );
             $fieldExport[$key] = (object)$fields[$key];
         }
-        dd($fieldExport);
         $this->FillOutedData  = $fieldExport;
     }
 
@@ -85,7 +87,10 @@ trait FieldsValueTrait
                     $validateData[$field['id']]['type'] = $field['type_variable'] ;
                     $fieldsInserted[$field['label']] = $fieldsInsert[$field['id']] ;
                 }
-                $validateRules[$field['label']] = implode('|',array_unique($validateRulesLocal[$field['label']]));
+
+                if ( ! ( $field['type_variable'] == 'file' and Request()->has('dynamicFormsHash.'.$field['id']) and Hash::check($fieldsInsert[$field['id']] , Request()->get('dynamicFormsHash')[$field['id']] ) ) ){
+                    $validateRules[$field['label']] = implode('|',array_unique($validateRulesLocal[$field['label']]));
+                }
             }
         }
         $validator = Validator::make($fieldsInserted, $validateRules );
