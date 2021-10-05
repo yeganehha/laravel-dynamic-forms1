@@ -8,42 +8,44 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-6">
-                                <label class="col-md-12 col-form-label">name </label>
+                                <label class="col-md-12 col-form-label">Label </label>
                                 <div class="col-md-12">
                                     <input type="text" name="moreField[{{ $i }}][label]" value="{{ old('moreField.'.$i.'.label' , "") }}" class="form-control" >
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 col-form-label mt-2">Type: </label>
+                                <label class="col-md-12 col-form-label mt-2">Type of field: </label>
                                 <div class="col-md-12">
                                     <select class="form-control"  name="moreField[{{ $i }}][type_variable]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
-                                        <option value="text" @if ( old('moreField.'.$i.'.type_variable' , "") == 'text' ) selected @endif >Text Field</option>
-                                        <option value="url" @if ( old('moreField.'.$i.'.type_variable' , "") == 'url' ) selected @endif>url</option>
-                                        <option value="password" @if ( old('moreField.'.$i.'.type_variable' , "") == 'password' ) selected @endif>password</option>
-                                        <option value="email" @if ( old('moreField.'.$i.'.type_variable' , "") == 'email' ) selected @endif>email</option>
-                                        <option value="select" @if ( old('moreField.'.$i.'.type_variable' , "") == 'select' ) selected @endif>select</option>
-                                        <option value="radio" @if ( old('moreField.'.$i.'.type_variable' , "") == 'radio' ) selected @endif>radio</option>
-                                        <option value="checkbox" @if ( old('moreField.'.$i.'.type_variable' , "") == 'checkbox' ) selected @endif>checkbox</option>
-                                        <option value="textarea" @if ( old('moreField.'.$i.'.type_variable' , "") == 'textarea' ) selected @endif>textarea</option>
-                                        <option value="date"  @if ( old('moreField.'.$i.'.type_variable' , "") == 'date' ) selected @endif>date</option>
-                                        <option value="number" @if ( old('moreField.'.$i.'.type_variable' , "") == 'number' ) selected @endif>number</option>
-                                        <option value="file" @if ( old('moreField.'.$i.'.type_variable' , "") == 'file' ) selected @endif>file</option>
+                                        <option value="text" @if ( old('moreField.'.$i.'.type_variable' , "") == 'text' ) selected @endif >Text box</option>
+                                        <option value="url" @if ( old('moreField.'.$i.'.type_variable' , "") == 'url' ) selected @endif>Url box</option>
+                                        <option value="password" @if ( old('moreField.'.$i.'.type_variable' , "") == 'password' ) selected @endif>Password box</option>
+                                        <option value="email" @if ( old('moreField.'.$i.'.type_variable' , "") == 'email' ) selected @endif>Email box</option>
+                                        <option value="select" @if ( old('moreField.'.$i.'.type_variable' , "") == 'select' ) selected @endif>Select option</option>
+                                        <option value="radio" @if ( old('moreField.'.$i.'.type_variable' , "") == 'radio' ) selected @endif>Select radio</option>
+                                        <option value="checkbox" @if ( old('moreField.'.$i.'.type_variable' , "") == 'checkbox' ) selected @endif>Check box</option>
+                                        <option value="textarea" @if ( old('moreField.'.$i.'.type_variable' , "") == 'textarea' ) selected @endif>Text area</option>
+                                        <option value="date"  @if ( old('moreField.'.$i.'.type_variable' , "") == 'date' ) selected @endif>Date</option>
+                                        <option value="time" @if ( old('moreField.'.$i.'.type_variable' , "") == 'time' ) selected @endif>Time</option>
+                                        <option value="datetime-local" @if ( old('moreField.'.$i.'.type_variable' , "") == 'datetime-local' ) selected @endif>Date & Time</option>
+                                        <option value="number" @if ( old('moreField.'.$i.'.type_variable' , "") == 'number' ) selected @endif>Number</option>
+                                        <option value="file" @if ( old('moreField.'.$i.'.type_variable' , "") == 'file' ) selected @endif>File</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 col-form-label">description</label>
+                                <label class="col-md-12 col-form-label">Description</label>
                                 <div class="col-md-12">
                                     <input type="text" name="moreField[{{ $i }}][description]" value="{{ old('moreField.'.$i.'.description' , "") }}" class="form-control" >
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 col-form-label mt-2">status</label>
+                                <label class="col-md-12 col-form-label mt-2">Status</label>
                                 <div class="col-md-12">
                                     <select class="form-control"  name="moreField[{{ $i }}][status]" data-size="7" data-style="btn btn-outline-info btn-round" title="status">
-                                        <option value="required" @if ( old('moreField.'.$i.'.status' , "") == 'required' ) selected @endif>required</option>
-                                        <option value="show" @if ( old('moreField.'.$i.'.status' , "") == 'show' ) selected @endif>show</option>
-                                        <option value="hidden" @if ( old('moreField.'.$i.'.status' , "") == 'hidden' ) selected @endif>hidden</option>
+                                        <option value="required" @if ( old('moreField.'.$i.'.status' , "") == 'required' ) selected @endif>Visible & Required</option>
+                                        <option value="show" @if ( old('moreField.'.$i.'.status' , "") == 'show' ) selected @endif>Visible</option>
+                                        <option value="hidden" @if ( old('moreField.'.$i.'.status' , "") == 'hidden' ) selected @endif>Invisible</option>
                                     </select>
                                 </div>
                             </div>
@@ -51,21 +53,21 @@
                         <div class="row moreFieldsItemMoreConfig{{ $i }} border rounded pb-2 mt-2" style="display: none;">
                             <hr>
                             <div class="col-md-8">
-                                <label class="col-md-12 col-form-label">value Of Field</label>
+                                <label class="col-md-12 col-form-label">Default value(for explode use `,`)</label>
                                 <div class="col-md-12 border-bottom ">
                                     <input type="text" name="moreField[{{ $i }}][values]" value="{{ old('moreField.'.$i.'.values' , "") }}" class="form-control tagsinput" data-role="tagsinput" data-color="info"  placeholder="valueOfField">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="col-md-12 col-form-label">order To Show</label>
+                                <label class="col-md-12 col-form-label">Order</label>
                                 <div class="col-md-12">
                                     <input type="number" name="moreField[{{ $i }}][order_number]" value="{{ old('moreField.'.$i.'.order_number' , "") }}" class="form-control" >
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <label class="col-md-12 col-form-label"> regixField</label>
+                                <label class="col-md-12 col-form-label"> Validation</label>
                                 <div class="col-md-12 border-bottom  text-left">
-                                    <input type="text"  name="moreField[{{ $i }}][validate]" value="{{ old('moreField.'.$i.'.validate' , "") }}"  class="form-control tagsinput " dir="ltr" data-role="tagsinput" data-color="info" placeholder="regixField">
+                                    <input type="text"  name="moreField[{{ $i }}][validate]" value="{{ old('moreField.'.$i.'.validate' , "") }}"  class="form-control tagsinput " dir="ltr" data-role="tagsinput" data-color="info" placeholder="Validation">
                                 </div>
                             </div>
                         </div>
@@ -75,13 +77,13 @@
                                                                      <span class="btn-label">
                                                                         <i class="fa fa-trash"></i>
                                                                      </span>
-                            delete
+                            Delete
                         </div>
                         <div class="btn btn-default mt-4 rounded pointer" onclick="$('.moreFieldsItemMoreConfig{{ $i }}').toggle();">
                                                                      <span class="btn-label">
                                                                         <i class="fa fa-dot-circle-o"></i>
                                                                      </span>
-                            more
+                            More
                         </div>
                     </div>
                 </div>
@@ -97,42 +99,44 @@
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label">name </label>
+                            <label class="col-md-12 col-form-label">Label </label>
                             <div class="col-md-12">
                                 <input type="text" name="moreField[{{ $key }}][label]" value="{{$field->label}}" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label mt-2">type</label>
+                            <label class="col-md-12 col-form-label mt-2">Type of field</label>
                             <div class="col-md-12">
                                 <select class="form-control"  name="moreField[{{ $key }}][type_variable]" data-size="7" data-style="btn btn-outline-info btn-round">
-                                    <option value="text" @if($field->type_variable == "text" ) selected @endif >text</option>
-                                    <option value="url" @if($field->type_variable == "url" ) selected @endif >url</option>
-                                    <option value="password" @if($field->type_variable == "password" ) selected @endif >password</option>
-                                    <option value="email" @if($field->type_variable == "email" ) selected @endif >email</option>
-                                    <option value="select" @if($field->type_variable == "select" ) selected @endif >select</option>
-                                    <option value="radio" @if($field->type_variable == "radio" ) selected @endif >radio</option>
-                                    <option value="checkbox" @if($field->type_variable == "checkbox" ) selected @endif >checkbox</option>
-                                    <option value="textarea" @if($field->type_variable == "textarea" ) selected @endif >textarea</option>
-                                    <option value="date" @if($field->type_variable == "date" ) selected @endif >date</option>
-                                    <option value="number" @if($field->type_variable == "number" ) selected @endif >number</option>
-                                    <option value="file" @if($field->type_variable == "file" ) selected @endif >file</option>
+                                    <option value="text" @if($field->type_variable == "text" ) selected @endif >Text box</option>
+                                    <option value="url" @if($field->type_variable == "url" ) selected @endif >Url box</option>
+                                    <option value="password" @if($field->type_variable == "password" ) selected @endif >Password box</option>
+                                    <option value="email" @if($field->type_variable == "email" ) selected @endif >Email box</option>
+                                    <option value="select" @if($field->type_variable == "select" ) selected @endif >Select option</option>
+                                    <option value="radio" @if($field->type_variable == "radio" ) selected @endif >Select radio</option>
+                                    <option value="checkbox" @if($field->type_variable == "checkbox" ) selected @endif >Check box</option>
+                                    <option value="textarea" @if($field->type_variable == "textarea" ) selected @endif >Text area</option>
+                                    <option value="date" @if($field->type_variable == "date" ) selected @endif >Date</option>
+                                    <option value="time" @if($field->type_variable == "time" ) selected @endif>Time</option>
+                                    <option value="datetime-local" @if($field->type_variable == "datetime-local" ) selected @endif>Date & Time</option>
+                                    <option value="number" @if($field->type_variable == "number" ) selected @endif >Number</option>
+                                    <option value="file" @if($field->type_variable == "file" ) selected @endif >File</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label">description</label>
+                            <label class="col-md-12 col-form-label">Description</label>
                             <div class="col-md-12">
                                 <input type="text" name="moreField[{{ $key }}][description]" value="{{$field->description}}" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label mt-2">status</label>
+                            <label class="col-md-12 col-form-label mt-2">Status</label>
                             <div class="col-md-12">
                                 <select class="form-control"  name="moreField[{{ $key }}][status]" data-size="7" data-style="btn btn-outline-info btn-round" >
-                                    <option value="required" @if($field->status == "required" ) selected @endif >required</option>
-                                    <option value="show" @if($field->status == "show" ) selected @endif >show</option>
-                                    <option value="hidden" @if($field->status == "hidden" ) selected @endif >hidden</option>
+                                    <option value="required" @if($field->status == "required" ) selected @endif >Visible & Required</option>
+                                    <option value="show" @if($field->status == "show" ) selected @endif >Visible</option>
+                                    <option value="hidden" @if($field->status == "hidden" ) selected @endif >Invisible</option>
                                 </select>
                             </div>
                         </div>
@@ -140,19 +144,19 @@
                     <div class="row moreFieldsItemMoreConfig{{ $key }} border rounded pb-2 mt-2" style="display: none;">
                         <hr>
                         <div class="col-md-8">
-                            <label class="col-md-12 col-form-label">valueOfField</label>
+                            <label class="col-md-12 col-form-label">Default value(for explode use `,`)</label>
                             <div class="col-md-12 border-bottom ">
                                 <input type="text" name="moreField[{{ $key }}][values]" value="{{$field->values}}" class="form-control tagsinput" data-role="tagsinput" data-color="info"  placeholder="">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label class="col-md-12 col-form-label"> orderToShow</label>
+                            <label class="col-md-12 col-form-label">Order</label>
                             <div class="col-md-12">
                                 <input type="number" name="moreField[{{ $key }}][order_number]" value="{{$field->order_number}}" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="col-md-12 col-form-label">regixField</label>
+                            <label class="col-md-12 col-form-label">Validation</label>
                             <div class="col-md-12 border-bottom  text-left">
                                 <input type="text"  name="moreField[{{ $key }}][validate]" value="{{$field->validate}}"  class="form-control tagsinput " dir="ltr" data-role="tagsinput" data-color="info" placeholder="">
                             </div>
@@ -164,13 +168,13 @@
                                                                  <span class="btn-label">
                                                                     <i class="fa fa-trash"></i>
                                                                  </span>
-                        delete
+                        Delete
                     </div>
                     <div class="btn btn-info mt-4 rounded pointer" onclick="$('.moreFieldsItemMoreConfig{{ $key }}').toggle();">
                                                                  <span class="btn-label">
                                                                     <i class="fa fa-dot-circle-o"></i>
                                                                  </span>
-                        more
+                        More
                     </div>
                 </div>
             </div>
@@ -188,7 +192,7 @@
                                              <span class="btn-label">
                                                 <i class="fa fa-plus"></i>
                                              </span>
-            add field
+            Add New Field
         </div>
     </div>
 </div>
@@ -199,42 +203,44 @@
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label">name</label>
+                            <label class="col-md-12 col-form-label">Label</label>
                             <div class="col-md-12">
                                 <input type="text" nameOFInputBox="moreField[__IIDD__][label]"  value="" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label mt-2">type</label>
+                            <label class="col-md-12 col-form-label mt-2">Type of field</label>
                             <div class="col-md-12">
                                 <select class="form-control"  nameOFInputBox="moreField[__IIDD__][type_variable]" data-size="7" data-style="btn btn-outline-info btn-round" title="">
-                                    <option value="text" selected>text</option>
-                                    <option value="url">url</option>
-                                    <option value="password">password</option>
-                                    <option value="email">email</option>
-                                    <option value="select">select</option>
-                                    <option value="radio">radio</option>
-                                    <option value="checkbox">checkbox</option>
-                                    <option value="textarea">textarea</option>
-                                    <option value="date">date</option>
-                                    <option value="number">number</option>
-                                    <option value="file">file</option>
+                                    <option value="text" selected>Text box</option>
+                                    <option value="url">Url box</option>
+                                    <option value="password">Password box</option>
+                                    <option value="email">Email box</option>
+                                    <option value="select">Select option</option>
+                                    <option value="radio">Select radio</option>
+                                    <option value="checkbox">Check box</option>
+                                    <option value="textarea">Text area</option>
+                                    <option value="date">Date</option>
+                                    <option value="time">Time</option>
+                                    <option value="datetime-local">Date & Time</option>
+                                    <option value="number">Number</option>
+                                    <option value="file">File</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label">description</label>
+                            <label class="col-md-12 col-form-label">Description</label>
                             <div class="col-md-12">
                                 <input type="text"  nameOFInputBox="moreField[__IIDD__][description]" value="" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label mt-2">status</label>
+                            <label class="col-md-12 col-form-label mt-2">Status</label>
                             <div class="col-md-12">
                                 <select class="form-control" nameOFInputBox="moreField[__IIDD__][status]" data-size="7" data-style="btn btn-outline-info btn-round" title="">
-                                    <option value="required">required</option>
-                                    <option value="show" selected>show</option>
-                                    <option value="hidden">hidden</option>
+                                    <option value="required">Visible & Required</option>
+                                    <option value="show" selected>Visible</option>
+                                    <option value="hidden">Invisible</option>
                                 </select>
                             </div>
                         </div>
@@ -242,19 +248,19 @@
                     <div class="row moreFieldsItemMoreConfig__IIDD__ border rounded pb-2 mt-2" style="display: none;">
                         <hr>
                         <div class="col-md-8">
-                            <label class="col-md-12 col-form-label">valueOfField </label>
+                            <label class="col-md-12 col-form-label">Default value(for explode use `,`) </label>
                             <div class="col-md-12 border-bottom ">
                                 <input type="text"   nameOFInputBox="moreField[__IIDD__][values]" value="" class="form-control tagsinputTemp"   placeholder="">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label class="col-md-12 col-form-label">orderToShow</label>
+                            <label class="col-md-12 col-form-label">Order</label>
                             <div class="col-md-12">
-                                <input type="number" nameOFInputBox="moreField[__IIDD__][order_number]" value="" class="form-control" >
+                                <input type="number" nameOFInputBox="moreField[__IIDD__][order_number]" value="0" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="col-md-12 col-form-label">regixField</label>
+                            <label class="col-md-12 col-form-label">Validation</label>
                             <div class="col-md-12 border-bottom  text-left">
                                 <input type="text"   nameOFInputBox="moreField[__IIDD__][validate]" value="" class="form-control tagsinputTemp " dir="ltr" placeholder="">
                             </div>
@@ -266,13 +272,13 @@
                                                                  <span class="btn-label">
                                                                     <i class="fa fa-trash"></i>
                                                                  </span>
-                        delete
+                        Delete
                     </div>
                     <div class="btn btn-default mt-4 rounded pointer" onclick="$('.moreFieldsItemMoreConfig__IIDD__').toggle();">
                                                                  <span class="btn-label">
                                                                     <i class="fa fa-dot-circle-o"></i>
                                                                  </span>
-                        more
+                        More
                     </div>
                 </div>
             </div>
