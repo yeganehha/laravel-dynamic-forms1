@@ -13,6 +13,7 @@ trait FieldsValueTrait
     protected $FillOutedData = null ;
     protected $isFillOutForm = false ;
     protected $FillOutError = false ;
+    protected $FillOutData = null ;
 
 
     private function getFillOutedForm($model){
@@ -71,6 +72,16 @@ trait FieldsValueTrait
     }
 
 
+    protected function _setfillOutData($fieldOutData){
+        $this->isCalled();
+        $this->FillOutData = $fieldOutData;
+    }
+
+    protected function _getError(){
+        $this->isCalled();
+        return $this->FillOutError;
+    }
+
     protected function _fillOutForm($model, $autoDetectData = true){
         $this->isCalled();
         if ( ( is_object($model) and get_class($model) != $this->form->model ) or ( ! is_object($model) and $model != $this->form->model ) )
@@ -80,11 +91,15 @@ trait FieldsValueTrait
             $this->isFillOutForm = true ;
         else
             $this->isFillOutForm = $model->id ;
-        if ( $autoDetectData and Request()->has('dynamicForms')){
+
+        if ( ( $autoDetectData and Request()->has('dynamicForms') and  $this->FillOutData == null ) or ( !$autoDetectData and $this->FillOutData != null ) ){
+            if ( $autoDetectData and Request()->has('dynamicForms') and  $this->FillOutData == null ){
+                $this->FillOutData = Request()->get('dynamicForms');
+            }
             $this->FillOutError = false ;
             DB::beginTransaction();
             try {
-                $validateData = $this->validateData(Request()->get('dynamicForms'));
+                $validateData = $this->validateData($this->FillOutData);
                 if ( $this->FillOutError === false ){
                     $this->setFillOutedForm($model,$validateData);
                     DB::commit();
