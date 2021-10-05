@@ -14,8 +14,6 @@ trait extraFieldsTrait{
                 $form = $form->id ;
             }
         }
-            ;
-
         $form = \Yeganehha\DynamicForms\Models\Forms::query()->find($form);
         if ( $form ){
             $fields =  $form->fields($showHidden)->get()->toArray();

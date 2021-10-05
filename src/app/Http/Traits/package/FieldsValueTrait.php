@@ -4,6 +4,8 @@ namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Yeganehha\DynamicForms\Models\Fieldsvalue;
 
@@ -23,9 +25,14 @@ trait FieldsValueTrait
             $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
         foreach ( $fields as $key => $field ){
             $fields[$key]['value'] = $values[$field['id']]['value'] ?? "";
+            if ( $field['type_variable'] == 'file' and ($fields[$key]['value'] != null or $fields[$key]['value'] != "") ) {
+//              $fields[$key]['downloadLink'] = URL::temporarySignedRoute('dynamicForms.dl',now()->addMinutes(30) , ['path' => $fields[$key]['value']]);
+                $fields[$key]['value'] =  URL::temporarySignedRoute('dynamicForms.dl',now()->addMinutes(30) , ['path' => $fields[$key]['value']]);
+            }
             $fields[$key]['valuesDe'] = explode(',', $fields[$key]['values'] );
             $fieldExport[$key] = (object)$fields[$key];
         }
+        dd($fieldExport);
         $this->FillOutedData  = $fieldExport;
     }
 
@@ -37,12 +44,18 @@ trait FieldsValueTrait
             throw new \ErrorException('Model Should Be Object!');
         }
         Fieldsvalue::deleteFillOutFields(array_keys($validateData) , $model , $modelType );
-        foreach ( $validateData as $field_id => $value ) {
-           $data[] =[
+        foreach ( $validateData as $field_id => $field ) {
+            if ( $field['type'] == 'file' and is_object($field['value']) and get_class($field['value']) == 'Illuminate\Http\UploadedFile' ){
+                $path = 'DynamicForms/'.$this->form->id.'-'.implode('/',(array)unserialize($this->form->name)) ;
+                $nameFile = $field_id.'-'.$model.'_'.$field['value']->getClientOriginalName();
+                Storage::putFileAs($path , $field['value'] , $nameFile);
+                $field['value'] = $path.'/'.$nameFile;
+            }
+            $data[] =[
                'field_id' => $field_id,
                'fieldable_id' => $model,
                'fieldable_type' => $modelType,
-               'value' => $value,
+               'value' => $field['value'],
            ];
         }
         Fieldsvalue::insert($data);
@@ -60,8 +73,18 @@ trait FieldsValueTrait
                 if ( $field['status'] == "required" ){
                     $validateRulesLocal[$field['label']][] = "required";
                 }
-                $validateData[$field['id']] = $fieldsInsert[$field['id']] ;
-                $fieldsInserted[$field['label']] = $fieldsInsert[$field['id']] ;
+                if ( $field['type_variable'] == 'file'){
+                    $file = Request()->file('dynamicForms.'.$field['id'] );
+                    if ( $file != null ) {
+                        $validateData[$field['id']]['value'] = $file ;
+                        $validateData[$field['id']]['type'] = $field['type_variable'] ;
+                        $fieldsInserted[$field['label']] = $file ;
+                    }
+                } else {
+                    $validateData[$field['id']]['value'] = $fieldsInsert[$field['id']] ;
+                    $validateData[$field['id']]['type'] = $field['type_variable'] ;
+                    $fieldsInserted[$field['label']] = $fieldsInsert[$field['id']] ;
+                }
                 $validateRules[$field['label']] = implode('|',array_unique($validateRulesLocal[$field['label']]));
             }
         }
