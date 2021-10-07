@@ -25,56 +25,17 @@ class defaultFieldsDynamicFormsListener
      */
     public function handle($event)
     {
-        $fields = [];
-        $form = $event->form;
-        $fields[] = [
-            'name' => 'url',
-            'label' => 'Url box' ,
-        ];
-        $fields[] = [
-            'name' => 'password',
-            'label' => 'Password box' ,
-        ];
-        $fields[] = [
-            'name' => 'email',
-            'label' => 'Email box' ,
-        ];
-        $fields[] = [
-            'name' => 'number',
-            'label' => 'Number box' ,
-        ];
-        $fields[] = [
-            'name' => 'select',
-            'label' => 'Select option' ,
-        ];
-        $fields[] = [
-            'name' => 'radio',
-            'label' => 'Select radio' ,
-        ];
-        $fields[] = [
-            'name' => 'checkbox',
-            'label' => 'Check box' ,
-        ];
-        $fields[] = [
-            'name' => 'textarea',
-            'label' => 'Text area' ,
-        ];
-        $fields[] = [
-            'name' => 'date',
-            'label' => 'Date' ,
-        ];
-        $fields[] = [
-            'name' => 'time',
-            'label' => 'Time' ,
-        ];
-        $fields[] = [
-            'name' => 'datetime-local',
-            'label' => 'Date & Time' ,
-        ];
-        $fields[] = [
-            'name' => 'file',
-            'label' => 'File' ,
-        ];
-        return $fields;
+        $event->addField('url','Url box' );
+        $event->addField('password','Password box' );
+        $event->addField('email','Email box' );
+        $event->addField('number','Number box' );
+        $event->addField('select','Select option' );
+        $event->addField('radio','Select radio' );
+        $event->addField('checkbox','Check box' );
+        $event->addField('textarea','Text area' );
+        $event->addField('date','Date' );
+        $event->addField('time','Time'  );
+        $event->addField('datetime-local','Date & Time' );
+        $event->addField('file','File' );
     }
 }

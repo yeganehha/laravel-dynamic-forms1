@@ -35,53 +35,9 @@ trait FormsTrait
             ];
             $this->form = Forms::create($data);
         }
-        $removedFieldsType = [];
-        $tempFieldsType = [];
-        $arraySpliceKeys = 0;
-        $results =  event(new typefieldsForDynamicFormsEvent($this->form));
-        foreach ($results as $key => $result ){
-            if ( $result != null ) {
-                if (isset($result['remove'])) {
-                    if (isset($result['remove'][0]) and is_array($result['remove'])) {
-                        foreach ($result['remove'] as $name) {
-                            $removedFieldsType[] = $name;
-                        }
-                        unset($result['remove']);
-                    } else {
-                        $removedFieldsType[] = $result['remove'];
-                        unset($result['remove']);
-                    }
-                }
-                if (isset($result[0]) and is_array($result[0])) {
-                    array_splice($results, $key - $arraySpliceKeys, 1);
-                    $arraySpliceKeys++;
-                    foreach ($result as $resultPack) {
-                        if (isset($resultPack['name'])) {
-                            if (!isset($tempFieldsType[$resultPack['name']])) {
-                                $results[] = $resultPack;
-                                $tempFieldsType[$resultPack['name']] = true;
-                            }
-                        } else
-                            throw new \ErrorException('Field type you insert from listener(`typefieldsForDynamicFormsEvent`) should have `name` value');
-                    }
-                } elseif (!isset($result['name']))
-                    throw new \ErrorException('Field type you insert from listener(`typefieldsForDynamicFormsEvent`) should have `name` value');
-                elseif (isset($tempFieldsType[$result['name']])) {
-                    array_splice($results, $key - $arraySpliceKeys, 1);
-                    $arraySpliceKeys++;
-                } else {
-                    $tempFieldsType[$result['name']] = true;
-                }
-            }
-        }
-        unset($tempFieldsType);
-        $removedFieldsType = array_unique($removedFieldsType);
-        foreach ($removedFieldsType as $deleteTypeName ) {
-            if(( $FieldTypeId = array_search($deleteTypeName, array_column($results, 'name')) ) !== false ){
-                array_splice($results, $FieldTypeId , 1);
-            }
-        }
-        $this->fieldsType = $results;
+        event(new typefieldsForDynamicFormsEvent($this->form));
+        $this->fieldsType = typefieldsForDynamicFormsEvent::getFields();
+        typefieldsForDynamicFormsEvent::clearFields();
     }
 
 
