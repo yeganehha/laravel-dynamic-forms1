@@ -20,7 +20,7 @@
                                         <option value="text" @if ( old('moreField.'.$i.'.type_variable' , "") == 'text' ) selected @endif >Text box</option>
                                         @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
                                             @if ( $fieldType != null )
-                                                <option value="{{$fieldType['name']}}" @if ( old('moreField.'.$i.'.type_variable' , "") == $fieldType['name'] ) selected @endif>{{$fieldType['label']}}</option>
+                                                <option value="{{$fieldType['name']}}" @if ( old('moreField.'.$i.'.type_variable' , "") == $fieldType['name'] ) selected @endif>{{$fieldType['label'] ?? $fieldType['name']}}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -104,7 +104,7 @@
                                     <option value="text" @if($field->type_variable == "text" ) selected @endif >Text box</option>
                                     @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
                                         @if ( $fieldType != null )
-                                            <option value="{{$fieldType['name']}}" @if ( $field->type_variable == $fieldType['name'] ) selected @endif>{{$fieldType['label']}}</option>
+                                            <option value="{{$fieldType['name']}}" @if ( $field->type_variable == $fieldType['name'] ) selected @endif>{{$fieldType['label'] ?? $fieldType['name']}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -201,7 +201,7 @@
                                     <option value="text" selected>Text box</option>
                                     @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
                                         @if ( $fieldType != null )
-                                            <option value="{{$fieldType['name']}}" >{{$fieldType['label']}}</option>
+                                            <option value="{{$fieldType['name']}}" >{{$fieldType['label'] ?? $fieldType['name']}}</option>
                                         @endif
                                     @endforeach
                                 </select>

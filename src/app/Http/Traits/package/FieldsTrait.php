@@ -158,4 +158,25 @@ trait FieldsTrait
         $this->showHidden = $show;
     }
 
+    protected function _addFieldType($name , $label = null , $view = null ){
+        $this->isCalled();
+        if(array_search($name, array_column($this->fieldsType, 'name')) === false ){
+            $this->fieldsType[] = [
+                'name' => $name,
+                'label' => $label,
+                'view' => $view,
+            ];
+        }
+    }
+
+    protected function _removeFieldType(){
+        if (func_num_args() > 0 ) {
+            foreach (func_get_args()[0] as $deleteTypeName) {
+                if (($FieldTypeId = array_search($deleteTypeName, array_column($this->fieldsType, 'name'))) !== false) {
+                    array_splice($this->fieldsType, $FieldTypeId, 1);
+                }
+            }
+        }
+    }
+
 }

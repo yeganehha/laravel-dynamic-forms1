@@ -127,4 +127,13 @@ class DynamicForms
     public function getError(){
         return $this->_getError();
     }
+
+    public function addFieldType($name , $label = null , $view = null){
+        $this->_addFieldType($name , $label, $view);
+        return $this;
+    }
+    public function removeFieldType(){
+        $this->_removeFieldType(func_get_args());
+        return $this;
+    }
 }
