@@ -67,7 +67,8 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                throw new \ErrorException('Error in field number '.$lastID.' attributes! '.$e->getMessage());
+                return back()->withError('Error in field number '.$lastID.' attributes! '.$e->getMessage())->withInput();
+                //throw new \ErrorException('Error in field number '.$lastID.' attributes! '.$e->getMessage());
             }
         } else {
             DB::beginTransaction();
@@ -77,7 +78,8 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                throw new \ErrorException('Error in field attributes! '.$e->getMessage());
+                return back()->withError('Error in field attributes! '.$e->getMessage())->withInput();
+                //throw new \ErrorException('Error in field attributes! '.$e->getMessage());
             }
         }
     }
