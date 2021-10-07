@@ -4,6 +4,7 @@ namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yeganehha\DynamicForms\Models\Fields;
 
@@ -181,4 +182,24 @@ trait FieldsTrait
         }
     }
 
+    protected function creatModelFileContent($tableName){
+        $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
+        $path = __DIR__.'/../../../../Models/DynamicFormsModel/'.ucfirst($DynamicFormModelName).'.php';
+        $directory = __DIR__.'/../../../../Models/DynamicFormsModel';
+        $contents = "<?php\r\n".
+                    "namespace Yeganehha\DynamicForms\Models\DynamicFormsModel;\r\n\r\n".
+                    "use Illuminate\Database\Eloquent\Factories\HasFactory;\r\n".
+                    "use Illuminate\Database\Eloquent\Model;\r\n\r\n".
+                    "class ".ucfirst($DynamicFormModelName)." extends Model{\r\n".
+                    "    protected \$table = '".$tableName."';\r\n".
+                    "    protected \$fillable = [ 'model_id'];\r\n".
+                    "}";
+        File::ensureDirectoryExists($directory);
+        File::put($path,$contents);
+    }
+    protected function removeModelFileContent(){
+        $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
+        $path = __DIR__.'/../../../../Models/DynamicFormsModel/'.ucfirst($DynamicFormModelName).'.php';
+        File::delete($path);
+    }
 }

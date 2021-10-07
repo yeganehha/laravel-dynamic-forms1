@@ -3,6 +3,7 @@
 namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Yeganehha\DynamicForms\app\Events\typefieldsForDynamicFormsEvent;
 use Yeganehha\DynamicForms\Models\Forms;
@@ -12,6 +13,36 @@ trait FormsTrait
     protected $form ;
     protected $formExist = false ;
 
+    private function creatExternalTable(){
+        $modelNameSpace =explode('\\' ,$this->form->model );
+        $modelName = lcfirst(end($modelNameSpace));
+        $tempModelNameSpace = $this->form->model;
+        $modelObject = new $tempModelNameSpace();
+        $modelTable = $modelObject->getTable();
+        $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
+        $tableName = $DynamicFormModelName .'_'. $modelName;
+        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
+            $tableName = $modelName .'_'. $DynamicFormModelName;
+        }
+        Schema::create($tableName, function($table) use ($modelTable) {
+            $table->unsignedBigInteger('model_id');
+            $table->foreign('model_id')->on($modelTable)->references('id')->onDelete('cascade')->onUpdate('cascade');
+            $table->timestamps();
+            $table->primary('model_id');
+        });
+       $this->creatModelFileContent($tableName);
+    }
+    private function dropExternalTable(){
+        $modelNameSpace =explode('\\' ,$this->form->model );
+        $modelName = lcfirst(end($modelNameSpace));
+        $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
+        $tableName = $DynamicFormModelName .'_'. $modelName;
+        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
+            $tableName = $modelName .'_'. $DynamicFormModelName;
+        }
+        Schema::dropIfExists($tableName);
+        $this->removeModelFileContent();
+    }
     protected function _form($formName = null , $model = null , $extend_table = false)
     {
         if ( $formName == null ){
@@ -37,6 +68,9 @@ trait FormsTrait
                 'external_table' => (bool)$extend_table
             ];
             $this->form = Forms::create($data);
+            if ( (bool)$this->form->external_table ){
+                $this->creatExternalTable();
+            }
         }
         event(new typefieldsForDynamicFormsEvent($this->form));
         $this->fieldsType = typefieldsForDynamicFormsEvent::getFields();
@@ -78,6 +112,11 @@ trait FormsTrait
         } elseif ( ! $this->formExist and $isExternal != $this->form->external_table ) {
             $this->form->external_table = $isExternal;
             $this->form->update();
+            if ( $this->form->external_table ){
+                $this->creatExternalTable();
+            } else {
+                $this->dropExternalTable();
+            }
         }
     }
 
@@ -94,6 +133,7 @@ trait FormsTrait
         } elseif ( ! $this->formExist and ! $this->form->external_table ) {
             $this->form->external_table = true;
             $this->form->update();
+            $this->creatExternalTable();
         }
     }
 
@@ -108,6 +148,7 @@ trait FormsTrait
         } elseif ( ! $this->formExist and $this->form->external_table ) {
             $this->form->external_table = false;
             $this->form->update();
+            $this->dropExternalTable();
         }
     }
 
@@ -165,6 +206,9 @@ trait FormsTrait
         DB::beginTransaction();
         try {
             if ($this->form->delete()) {
+                if ( $this->form->external_table ){
+                    $this->dropExternalTable();
+                }
                 $directory = 'DynamicForms/' . $this->form->id . '-' . implode('/', (array)unserialize($this->form->name));
                 if ( ! Storage::exists($directory) or Storage::deleteDirectory($directory)) {
                     DB::commit();
