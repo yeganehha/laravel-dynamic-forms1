@@ -35,7 +35,16 @@ trait FormsTrait
             ];
             $this->form = Forms::create($data);
         }
-        $this->fieldsType = event(new typefieldsForDynamicFormsEvent($this->form));
+        $results =  event(new typefieldsForDynamicFormsEvent($this->form));
+        foreach ($results as $key => $result ){
+            if ( isset($result[0] ) ){
+                foreach ($result as  $resultPack ){
+                    $results[] = $resultPack ;
+                }
+                unset($results[$key]);
+            }
+        }
+        $this->fieldsType = $results;
     }
 
 
