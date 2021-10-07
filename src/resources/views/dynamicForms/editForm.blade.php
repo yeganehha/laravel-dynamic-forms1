@@ -18,18 +18,6 @@
                                 <div class="col-md-12">
                                     <select class="form-control"  name="moreField[{{ $i }}][type_variable]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
                                         <option value="text" @if ( old('moreField.'.$i.'.type_variable' , "") == 'text' ) selected @endif >Text box</option>
-                                        <option value="url" @if ( old('moreField.'.$i.'.type_variable' , "") == 'url' ) selected @endif>Url box</option>
-                                        <option value="password" @if ( old('moreField.'.$i.'.type_variable' , "") == 'password' ) selected @endif>Password box</option>
-                                        <option value="email" @if ( old('moreField.'.$i.'.type_variable' , "") == 'email' ) selected @endif>Email box</option>
-                                        <option value="select" @if ( old('moreField.'.$i.'.type_variable' , "") == 'select' ) selected @endif>Select option</option>
-                                        <option value="radio" @if ( old('moreField.'.$i.'.type_variable' , "") == 'radio' ) selected @endif>Select radio</option>
-                                        <option value="checkbox" @if ( old('moreField.'.$i.'.type_variable' , "") == 'checkbox' ) selected @endif>Check box</option>
-                                        <option value="textarea" @if ( old('moreField.'.$i.'.type_variable' , "") == 'textarea' ) selected @endif>Text area</option>
-                                        <option value="date"  @if ( old('moreField.'.$i.'.type_variable' , "") == 'date' ) selected @endif>Date</option>
-                                        <option value="time" @if ( old('moreField.'.$i.'.type_variable' , "") == 'time' ) selected @endif>Time</option>
-                                        <option value="datetime-local" @if ( old('moreField.'.$i.'.type_variable' , "") == 'datetime-local' ) selected @endif>Date & Time</option>
-                                        <option value="number" @if ( old('moreField.'.$i.'.type_variable' , "") == 'number' ) selected @endif>Number</option>
-                                        <option value="file" @if ( old('moreField.'.$i.'.type_variable' , "") == 'file' ) selected @endif>File</option>
                                         @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
                                             @if ( $fieldType != null )
                                                 <option value="{{$fieldType['name']}}" @if ( old('moreField.'.$i.'.type_variable' , "") == $fieldType['name'] ) selected @endif>{{$fieldType['label']}}</option>
@@ -114,18 +102,6 @@
                             <div class="col-md-12">
                                 <select class="form-control"  name="moreField[{{ $key }}][type_variable]" data-size="7" data-style="btn btn-outline-info btn-round">
                                     <option value="text" @if($field->type_variable == "text" ) selected @endif >Text box</option>
-                                    <option value="url" @if($field->type_variable == "url" ) selected @endif >Url box</option>
-                                    <option value="password" @if($field->type_variable == "password" ) selected @endif >Password box</option>
-                                    <option value="email" @if($field->type_variable == "email" ) selected @endif >Email box</option>
-                                    <option value="select" @if($field->type_variable == "select" ) selected @endif >Select option</option>
-                                    <option value="radio" @if($field->type_variable == "radio" ) selected @endif >Select radio</option>
-                                    <option value="checkbox" @if($field->type_variable == "checkbox" ) selected @endif >Check box</option>
-                                    <option value="textarea" @if($field->type_variable == "textarea" ) selected @endif >Text area</option>
-                                    <option value="date" @if($field->type_variable == "date" ) selected @endif >Date</option>
-                                    <option value="time" @if($field->type_variable == "time" ) selected @endif>Time</option>
-                                    <option value="datetime-local" @if($field->type_variable == "datetime-local" ) selected @endif>Date & Time</option>
-                                    <option value="number" @if($field->type_variable == "number" ) selected @endif >Number</option>
-                                    <option value="file" @if($field->type_variable == "file" ) selected @endif >File</option>
                                     @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
                                         @if ( $fieldType != null )
                                             <option value="{{$fieldType['name']}}" @if ( $field->type_variable == $fieldType['name'] ) selected @endif>{{$fieldType['label']}}</option>
@@ -223,18 +199,6 @@
                             <div class="col-md-12">
                                 <select class="form-control"  nameOFInputBox="moreField[__IIDD__][type_variable]" data-size="7" data-style="btn btn-outline-info btn-round" title="">
                                     <option value="text" selected>Text box</option>
-                                    <option value="url">Url box</option>
-                                    <option value="password">Password box</option>
-                                    <option value="email">Email box</option>
-                                    <option value="select">Select option</option>
-                                    <option value="radio">Select radio</option>
-                                    <option value="checkbox">Check box</option>
-                                    <option value="textarea">Text area</option>
-                                    <option value="date">Date</option>
-                                    <option value="time">Time</option>
-                                    <option value="datetime-local">Date & Time</option>
-                                    <option value="number">Number</option>
-                                    <option value="file">File</option>
                                     @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
                                         @if ( $fieldType != null )
                                             <option value="{{$fieldType['name']}}" >{{$fieldType['label']}}</option>

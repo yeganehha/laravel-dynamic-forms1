@@ -16,6 +16,7 @@ class DynamicFormsServiceProvider extends ServiceProvider
         {
             return new DynamicForms();
         });
+        $this->app->register(EventServiceProvider::class);
     }
 
     /**

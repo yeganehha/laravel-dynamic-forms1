@@ -36,6 +36,7 @@ trait FormsTrait
             $this->form = Forms::create($data);
         }
         $removedFieldsType = [];
+        $arraySpliceKeys = 0;
         $results =  event(new typefieldsForDynamicFormsEvent($this->form));
         foreach ($results as $key => $result ){
             if ( isset($result['remove'] ) ) {
@@ -50,19 +51,20 @@ trait FormsTrait
                 }
             }
             if ( isset($result[0] ) and is_array($result[0]) ){
+                array_splice($results, $key - $arraySpliceKeys , 1);
+                $arraySpliceKeys++;
                 foreach ($result as  $resultPack ){
                     if ( isset($resultPack['name']))
                         $results[] = $resultPack ;
                     else
                         throw new \ErrorException('Field type you insert from listener(`typefieldsForDynamicFormsEvent`) should have `name` value');
                 }
-                array_splice($results, $key, 1);
             } elseif ( ! isset($result['name']) )
                 throw new \ErrorException('Field type you insert from listener(`typefieldsForDynamicFormsEvent`) should have `name` value');
         }
         foreach ($removedFieldsType as $deleteTypeName ) {
             if(( $FieldTypeId = array_search($deleteTypeName, array_column($results, 'name')) ) !== false ){
-                unset($results[$FieldTypeId]);
+                array_splice($results, $FieldTypeId , 1);
             }
         }
         $this->fieldsType = $results;
