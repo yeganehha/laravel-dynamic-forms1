@@ -30,6 +30,11 @@
                                         <option value="datetime-local" @if ( old('moreField.'.$i.'.type_variable' , "") == 'datetime-local' ) selected @endif>Date & Time</option>
                                         <option value="number" @if ( old('moreField.'.$i.'.type_variable' , "") == 'number' ) selected @endif>Number</option>
                                         <option value="file" @if ( old('moreField.'.$i.'.type_variable' , "") == 'file' ) selected @endif>File</option>
+                                        @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
+                                            @if ( $fieldType != null )
+                                                <option value="{{$fieldType['name']}}" @if ( old('moreField.'.$i.'.type_variable' , "") == $fieldType['name'] ) selected @endif>{{$fieldType['label']}}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -91,7 +96,7 @@
         </div>
         @endfor
     @else
-            @foreach($moreField[$DynamicFormsId] as $key => $field)
+            @foreach($DynamicFormsField[$DynamicFormsId] as $key => $field)
     <div class="card mb-5 moreFieldsItem{{ $key }}">
         <input type="hidden" name="moreField[{{ $key }}][id]" value="{{$field->id}}" class="form-control" >
         <div class="card-body">
@@ -121,6 +126,11 @@
                                     <option value="datetime-local" @if($field->type_variable == "datetime-local" ) selected @endif>Date & Time</option>
                                     <option value="number" @if($field->type_variable == "number" ) selected @endif >Number</option>
                                     <option value="file" @if($field->type_variable == "file" ) selected @endif >File</option>
+                                    @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
+                                        @if ( $fieldType != null )
+                                            <option value="{{$fieldType['name']}}" @if ( $field->type_variable == $fieldType['name'] ) selected @endif>{{$fieldType['label']}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -225,6 +235,11 @@
                                     <option value="datetime-local">Date & Time</option>
                                     <option value="number">Number</option>
                                     <option value="file">File</option>
+                                    @foreach($DynamicFormsFieldType[$DynamicFormsId] as $fieldType )
+                                        @if ( $fieldType != null )
+                                            <option value="{{$fieldType['name']}}" >{{$fieldType['label']}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -286,7 +301,7 @@
     </div>
 </div>
 <script>
-    var numberOfElement = @if(old('moreField')) {{ count(old('moreField')) }} @else {{ count($moreField[$DynamicFormsId]) }} @endif;
+    var numberOfElement = @if(old('moreField')) {{ count(old('moreField')) }} @else {{ count($DynamicFormsField[$DynamicFormsId]) }} @endif;
     function add() {
         var string = $('#typeOfAddItem').html();
         string = string.replace(new RegExp('__IIDD__', 'g'), numberOfElement);

@@ -1,4 +1,4 @@
-@foreach($moreField[$DynamicFormsId] as $key => $field)
+@foreach($DynamicFormsField[$DynamicFormsId] as $key => $field)
     @if($field->type_variable == 'textarea')
         <div class="{{ $DynamicFormsStyle['Div'] }}">
         <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
@@ -84,6 +84,18 @@
             </div>
         </div>
     @else
+        @if( ( $FieldTypeId = array_search($field->type_variable, array_column($DynamicFormsFieldType[$DynamicFormsId], 'name')) ) !== false and isset($DynamicFormsFieldType[$DynamicFormsId][$FieldTypeId]['view']) and $DynamicFormsFieldType[$DynamicFormsId][$FieldTypeId]['view']  != null and View::exists($DynamicFormsFieldType[$DynamicFormsId][$FieldTypeId]['view']) )
+            @include( $DynamicFormsFieldType[$DynamicFormsId][$FieldTypeId]['view'],
+                ["DynamicFormsId" => $DynamicFormsId ,
+                 "DynamicFormsStyle" => [
+                     'Div' => $DynamicFormsStyle['Div'],
+                     'Label' => $DynamicFormsStyle['Label'],
+                     'InputDiv' => $DynamicFormsStyle['InputDiv'] ,
+                     'Input' => $DynamicFormsStyle['Input'] ,
+                     'Description' => $DynamicFormsStyle['Description']
+                     ]
+                  ])
+        @else
             <div class="{{ $DynamicFormsStyle['Div'] }}">
                 <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
                 <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
@@ -94,6 +106,7 @@
                     @if($field->description != '')<div class="{{ $DynamicFormsStyle['Description'] }}">{{$field->description}}</div>@endif
                 </div>
             </div>
+        @endif
     @endif
 @endforeach
 

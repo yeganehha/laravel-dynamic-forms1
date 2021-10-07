@@ -2,6 +2,7 @@
 
 namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 
+use Yeganehha\DynamicForms\app\Events\typefieldsForDynamicFormsEvent;
 use Yeganehha\DynamicForms\DynamicForms;
 use Yeganehha\DynamicForms\Models\Forms;
 
@@ -34,6 +35,7 @@ trait FormsTrait
             ];
             $this->form = Forms::create($data);
         }
+        $this->fieldsType = event(new typefieldsForDynamicFormsEvent($this->form));
     }
 
 
@@ -112,14 +114,18 @@ trait FormsTrait
         $this->isCalled();
         $dynamicFormsType = isset(view()->getShared()['dynamicFormsType']) ? view()->getShared()['dynamicFormsType'] : [];
         $moreField = isset(view()->getShared()['moreField']) ? view()->getShared()['moreField'] : [];
+        $fieldType = isset(view()->getShared()['fieldType']) ? view()->getShared()['fieldType'] : [];
         if ( $this->isFillOutForm != false ) {
             $moreField[$this->form->id] = $this->FillOutedData;
+            $fieldType[$this->form->id] = $this->fieldsType;
             $dynamicFormsType[$this->form->id] = 'fillOut';
         } else{
             $moreField[$this->form->id] = $this->getFields(false,true);
+            $fieldType[$this->form->id] = $this->fieldsType;
             $dynamicFormsType[$this->form->id] = 'editForm';
         }
-        view()->share('moreField', $moreField);
+        view()->share('DynamicFormsField', $moreField);
+        view()->share('DynamicFormsFieldType', $fieldType);
         view()->share('dynamicFormsType', $dynamicFormsType);
         view()->share('DynamicFormsId', $this->form->id);
         return $this;

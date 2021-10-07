@@ -10,6 +10,7 @@ use Yeganehha\DynamicForms\Models\Fields;
 trait FieldsTrait
 {
     protected $showHidden = false ;
+    protected $fieldsType = [] ;
 
     /**
      * @throws \ErrorException
