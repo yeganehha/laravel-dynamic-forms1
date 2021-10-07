@@ -3,12 +3,12 @@
 namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 
 use Yeganehha\DynamicForms\app\Events\typefieldsForDynamicFormsEvent;
-use Yeganehha\DynamicForms\DynamicForms;
 use Yeganehha\DynamicForms\Models\Forms;
 
 trait FormsTrait
 {
     protected $form ;
+    protected $formExist = false ;
 
     protected function _form($formName = null , $model = null , $extend_table = false)
     {
@@ -23,6 +23,7 @@ trait FormsTrait
                 $formObject->model = $modelKey;
                 $formObject->update();
             }
+            $this->formExist = true;
             $this->form = $formObject ;
         } else {
             if ( $model == null ){
@@ -69,8 +70,13 @@ trait FormsTrait
     protected function _setTable($isExternal)
     {
         $this->isCalled();
-        $this->form->external_table = (bool)$isExternal;
-        $this->form->update();
+        $isExternal = (bool)$isExternal ;
+        if ( $this->formExist and $isExternal != $this->form->external_table ) {
+            throw new \ErrorException('You can not change the storage form of the created form!');
+        } elseif ( ! $this->formExist and $isExternal != $this->form->external_table ) {
+            $this->form->external_table = $isExternal;
+            $this->form->update();
+        }
     }
 
 
@@ -81,8 +87,12 @@ trait FormsTrait
     protected function _setExternalTable()
     {
         $this->isCalled();
-        $this->form->external_table = true;
-        $this->form->update();
+        if ( $this->formExist and ! $this->form->external_table ) {
+            throw new \ErrorException('You can not change the storage form of the created form!');
+        } elseif ( ! $this->formExist and ! $this->form->external_table ) {
+            $this->form->external_table = true;
+            $this->form->update();
+        }
     }
 
     /**
@@ -91,9 +101,12 @@ trait FormsTrait
      */
     protected function _setLocalTable(){
         $this->isCalled();
-        $this->form->external_table = false;
-        $this->form->update();
-        return $this;
+        if ( $this->formExist and $this->form->external_table ) {
+            throw new \ErrorException('You can not change the storage form of the created form!');
+        } elseif ( ! $this->formExist and $this->form->external_table ) {
+            $this->form->external_table = false;
+            $this->form->update();
+        }
     }
 
 
