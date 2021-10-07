@@ -41,6 +41,7 @@ class CreateFormsTable extends Migration
             $table->unsignedBigInteger('fieldable_id');
             $table->string('fieldable_type');
             $table->text('value')->nullable();
+            $table->primary(['field_id', 'fieldable_id' , 'fieldable_type']);
         });
     }
 
