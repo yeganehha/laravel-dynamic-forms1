@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <<div class="btn btn-danger rounded" onclick="$('.moreFieldsItem{{ $i }}').remove();">
+                        <div class="btn btn-danger rounded" onclick="$('.moreFieldsItem{{ $i }}').remove();">
                                                                      <span class="btn-label">
                                                                         <i class="fa fa-trash"></i>
                                                                      </span>
