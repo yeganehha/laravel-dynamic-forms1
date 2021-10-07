@@ -20,7 +20,7 @@ trait FormsTrait
         $formKey = serialize($formName);
         $modelKey = is_object($model) ? get_class($model) : $model;
         $formObject = Forms::where('name', $formKey)->first();
-        if ( $formObject->exists  ) {
+        if ( $formObject != null ) {
             if ( $modelKey != $formObject->model ){
                 $formObject->model = $modelKey;
                 $formObject->update();
@@ -165,7 +165,8 @@ trait FormsTrait
         DB::beginTransaction();
         try {
             if ($this->form->delete()) {
-                if (Storage::deleteDirectory('DynamicForms/' . $this->form->id . '-' . implode('/', (array)unserialize($this->form->name)))) {
+                $directory = 'DynamicForms/' . $this->form->id . '-' . implode('/', (array)unserialize($this->form->name));
+                if ( ! Storage::exists($directory) or Storage::deleteDirectory($directory)) {
                     DB::commit();
                     $dynamicFormsType = isset(view()->getShared()['dynamicFormsType']) ? view()->getShared()['dynamicFormsType'] : [];
                     $moreField = isset(view()->getShared()['moreField']) ? view()->getShared()['moreField'] : [];
