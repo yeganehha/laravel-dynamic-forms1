@@ -2,6 +2,7 @@
 namespace Yeganehha\DynamicForms\app\Http\Traits;
 
 use Illuminate\Support\Facades\URL;
+use Yeganehha\DynamicForms\app\Events\showFillOutedFieldsDynamicFormsEvent;
 
 trait extraFieldsTrait{
     public function allValues(){
@@ -15,8 +16,11 @@ trait extraFieldsTrait{
             } else if ( get_class($form) == \Yeganehha\DynamicForms\Models\Forms::class ){
                 $form = $form->id ;
             }
+            $form = \Yeganehha\DynamicForms\Models\Forms::query()->find($form);
+        } else {
+            $formKey = serialize($form);
+            $form = \Yeganehha\DynamicForms\Models\Forms::where('name', $formKey)->first();
         }
-        $form = \Yeganehha\DynamicForms\Models\Forms::query()->find($form);
         if ( $form ){
             $fields =  $form->fields($showHidden)->get()->toArray();
             $fieldsId = array_column($fields, 'id');
@@ -38,7 +42,8 @@ trait extraFieldsTrait{
                     $fieldExport[$key] = (object)['field_id' => $field['id'] , 'label' => $field['label'] , 'value' => $fields[$key]['value'] ?? "" ,  'valueFile' => $fields[$key]['valueFile'] , "type" => $field['type_variable'], "status" => $field['status'] ];
                 }
             }
-            return $fieldExport;
+            event(new showFillOutedFieldsDynamicFormsEvent($form , $fieldExport));
+            return showFillOutedFieldsDynamicFormsEvent::getFields();
         }
         return [];
     }
