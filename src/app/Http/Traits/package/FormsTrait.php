@@ -2,6 +2,8 @@
 
 namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yeganehha\DynamicForms\app\Events\typefieldsForDynamicFormsEvent;
 use Yeganehha\DynamicForms\Models\Forms;
 
@@ -155,6 +157,34 @@ trait FormsTrait
             return null;
         } else {
             return $this->form->id;
+        }
+    }
+
+    protected function _deleteForm(){
+        $this->isCalled();
+        DB::beginTransaction();
+        try {
+            if ($this->form->delete()) {
+                if (Storage::deleteDirectory('DynamicForms/' . $this->form->id . '-' . implode('/', (array)unserialize($this->form->name)))) {
+                    DB::commit();
+                    $dynamicFormsType = isset(view()->getShared()['dynamicFormsType']) ? view()->getShared()['dynamicFormsType'] : [];
+                    $moreField = isset(view()->getShared()['moreField']) ? view()->getShared()['moreField'] : [];
+                    $fieldType = isset(view()->getShared()['fieldType']) ? view()->getShared()['fieldType'] : [];
+                    unset($moreField[$this->form->id]);
+                    unset($fieldType[$this->form->id]);
+                    unset($dynamicFormsType[$this->form->id]);
+                    view()->share('DynamicFormsField', $moreField);
+                    view()->share('DynamicFormsFieldType', $fieldType);
+                    view()->share('dynamicFormsType', $dynamicFormsType);
+                    $this->form = null;
+                    return true;
+                }
+            }
+            DB::rollback();
+            return false;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw new \ErrorException('Error in Deleting form! '.$e->getMessage());
         }
     }
 }

@@ -132,8 +132,13 @@ class DynamicForms
         $this->_addFieldType($name , $label, $view);
         return $this;
     }
+
     public function removeFieldType(){
         $this->_removeFieldType(func_get_args());
         return $this;
+    }
+
+    public function deleteForm(){
+        return $this->_deleteForm();
     }
 }
