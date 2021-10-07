@@ -19,7 +19,7 @@
                 @foreach($field->valuesDe as $keyValue => $value)
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="{{$value}}" name="dynamicForms[{{$field->id}}][]" @if (old("dynamicForms.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) == $value ) checked @endif > {{$value}}
+                        <input class="form-check-input" type="checkbox" value="{{$value}}" name="dynamicForms[{{$field->id}}][]" @if ( in_array( $value , old("dynamicForms.{$field->id}" , ( $field->value ) ? (array)$field->value : (array)$field->values ) ) ) checked @endif > {{$value}}
                         <span class="form-check-sign"><span class="check"></span></span>
                     </label>
                 </div>

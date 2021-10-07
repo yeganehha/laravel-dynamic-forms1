@@ -25,7 +25,10 @@ trait FieldsValueTrait
         if ( is_object($model) )
             $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
         foreach ( $fields as $key => $field ){
-            $fields[$key]['value'] = $values[$field['id']]['value'] ?? "";
+            if ( isset($values[$field['id']]['value']) and ( $values[$field['id']]['value'] != null or $values[$field['id']]['value'] != "" ) )
+                $fields[$key]['value'] = unserialize($values[$field['id']]['value']);
+            else
+                $fields[$key]['value'] =  "";
             if ( $field['type_variable'] == 'file' and ($fields[$key]['value'] != null or $fields[$key]['value'] != "") ) {
 //              $fields[$key]['downloadLink'] = URL::temporarySignedRoute('dynamicForms.dl',now()->addMinutes(30) , ['path' => $fields[$key]['value']]);
                 $fields[$key]['valueFile'] =  $fields[$key]['value'];
@@ -57,7 +60,7 @@ trait FieldsValueTrait
                'field_id' => $field_id,
                'fieldable_id' => $model,
                'fieldable_type' => $modelType,
-               'value' => $field['value'],
+               'value' => serialize($field['value']),
            ];
         }
         Fieldsvalue::insert($data);
@@ -83,9 +86,9 @@ trait FieldsValueTrait
                         $fieldsInserted[$field['label']] = $file ;
                     }
                 } else {
-                    $validateData[$field['id']]['value'] = $fieldsInsert[$field['id']] ;
+                    $validateData[$field['id']]['value'] = $fieldsInsert[$field['id']] ?? "" ;
                     $validateData[$field['id']]['type'] = $field['type_variable'] ;
-                    $fieldsInserted[$field['label']] = $fieldsInsert[$field['id']] ;
+                    $fieldsInserted[$field['label']] = $fieldsInsert[$field['id']] ?? "";
                 }
 
                 if ( ! ( $field['type_variable'] == 'file' and Request()->has('dynamicFormsHash.'.$field['id']) and Hash::check($fieldsInsert[$field['id']] , Request()->get('dynamicFormsHash')[$field['id']] ) ) ){
