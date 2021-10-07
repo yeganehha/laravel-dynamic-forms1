@@ -1,7 +1,7 @@
 <div id="moreFields" >
     @if(old('moreField'))
         @for( $i =0; $i < count(old('moreField')); $i++)
-        <div class="card mb-5 moreFieldsItem{$key}">
+        <div class="card mb-5 moreFieldsItem{{$i}}">
             <input type="hidden" name="moreField[{{ $i }}][id]" value="{{ old('moreField.'.$i.'.id' , "") }}" class="form-control" >
             <div class="card-body">
                 <div class="row">
