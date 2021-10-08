@@ -22,8 +22,17 @@ trait FieldsValueTrait
     private function getFillOutedForm($model){
         $fields = $this->getFields(true,$this->showHidden);
         $fieldsId = array_column($fields, 'id');
-        if ( is_object($model) )
-            $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
+        if ( is_object($model) ){
+            if ( $this->form->external_table ){
+                $columns = $model->externalTableConnection($this->form->id)->get()->first()->toArray();
+                unset($columns['model_id'],$columns['created_at'],$columns['updated_at']);
+                foreach ( $columns as $key => $value ){
+                    $values[substr($key , 2)]['value'] = $value;
+                }
+            } else {
+                $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
+            }
+        }
         foreach ( $fields as $key => $field ){
             if ( isset($values[$field['id']]['value']) and ( $values[$field['id']]['value'] != null or $values[$field['id']]['value'] != "" ) )
                 $fields[$key]['value'] = unserialize($values[$field['id']]['value']);
@@ -43,27 +52,48 @@ trait FieldsValueTrait
 
     private function setFillOutedForm($model,$validateData){
         $modelType = $this->_getModel();
-        if (is_object($model))
-            $model = $model->id;
-        if (intval($model) == 0) {
-            throw new \ErrorException('Model Should Be Object!');
-        }
-        Fieldsvalue::deleteFillOutFields(array_keys($validateData) , $model , $modelType );
-        foreach ( $validateData as $field_id => $field ) {
-            if ( $field['type'] == 'file' and is_object($field['value']) and get_class($field['value']) == 'Illuminate\Http\UploadedFile' ){
-                $path = 'DynamicForms/'.$this->form->id.'-'.implode('/',(array)unserialize($this->form->name)) ;
-                $nameFile = $field_id.'-'.$model.'_'.$field['value']->getClientOriginalName();
-                Storage::putFileAs($path , $field['value'] , $nameFile);
-                $field['value'] = $path.'/'.$nameFile;
+        if ( $this->form->external_table ){
+            if (! is_object($model))
+                throw new \ErrorException('Model Should Be Object!');
+            $data['model_id'] = $model->id;
+            foreach ($validateData as $field_id => $field) {
+                if ($field['type'] == 'file' and is_object($field['value']) and get_class($field['value']) == 'Illuminate\Http\UploadedFile') {
+                    $path = 'DynamicForms/' . $this->form->id . '-' . implode('/', (array)unserialize($this->form->name));
+                    $nameFile = $field_id . '-' . $model->id . '_' . $field['value']->getClientOriginalName();
+                    Storage::putFileAs($path, $field['value'], $nameFile);
+                    $field['value'] = $path . '/' . $nameFile;
+                }
+                $data['f_'.$field_id] = serialize($field['value']);
             }
-            $data[] =[
-               'field_id' => $field_id,
-               'fieldable_id' => $model,
-               'fieldable_type' => $modelType,
-               'value' => serialize($field['value']),
-           ];
+            $ifExist = $model->externalTableConnection($this->form->id)->where('model_id' , $model->id )->get()->first();
+            if ( $ifExist != null  ){
+                $ifExist->update($data);
+            } else {
+                $model->externalTableConnection($this->form->id)->create($data);
+            }
+        } else {
+            if (is_object($model))
+                $model = $model->id;
+            if (intval($model) == 0) {
+                throw new \ErrorException('Model Should Be Object!');
+            }
+            Fieldsvalue::deleteFillOutFields(array_keys($validateData), $model, $modelType);
+            foreach ($validateData as $field_id => $field) {
+                if ($field['type'] == 'file' and is_object($field['value']) and get_class($field['value']) == 'Illuminate\Http\UploadedFile') {
+                    $path = 'DynamicForms/' . $this->form->id . '-' . implode('/', (array)unserialize($this->form->name));
+                    $nameFile = $field_id . '-' . $model . '_' . $field['value']->getClientOriginalName();
+                    Storage::putFileAs($path, $field['value'], $nameFile);
+                    $field['value'] = $path . '/' . $nameFile;
+                }
+                $data[] = [
+                    'field_id' => $field_id,
+                    'fieldable_id' => $model,
+                    'fieldable_type' => $modelType,
+                    'value' => serialize($field['value']),
+                ];
+            }
+            Fieldsvalue::insert($data);
         }
-        Fieldsvalue::insert($data);
     }
 
     private function validateData($fieldsInsert){

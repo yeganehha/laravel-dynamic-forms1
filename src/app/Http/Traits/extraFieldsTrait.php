@@ -47,4 +47,9 @@ trait extraFieldsTrait{
         }
         return [];
     }
+
+    public function externalTableConnection($formId){
+        $className = 'Yeganehha\DynamicForms\Models\DynamicFormsModel\DynamicForm'.$formId;
+        return $this->hasOne($className,'model_id');
+    }
 }
