@@ -24,10 +24,13 @@ trait FieldsValueTrait
         $fieldsId = array_column($fields, 'id');
         if ( is_object($model) ){
             if ( $this->form->external_table ){
-                $columns = $model->externalTableConnection($this->form->id)->get()->first()->toArray();
-                unset($columns['model_id'],$columns['created_at'],$columns['updated_at']);
-                foreach ( $columns as $key => $value ){
-                    $values[substr($key , 2)]['value'] = $value;
+                $columns = $model->externalTableConnection($this->form->id)->get()->first();
+                if ( $columns != null ) {
+                    $columns = $columns->toArray();
+                    unset($columns['model_id'], $columns['created_at'], $columns['updated_at']);
+                    foreach ($columns as $key => $value) {
+                        $values[substr($key, 2)]['value'] = $value;
+                    }
                 }
             } else {
                 $values = $model->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();

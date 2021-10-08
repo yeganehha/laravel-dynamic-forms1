@@ -24,7 +24,18 @@ trait extraFieldsTrait{
         if ( $form ){
             $fields =  $form->fields($showHidden)->get()->toArray();
             $fieldsId = array_column($fields, 'id');
-            $values = $this->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
+            if ( $form->external_table ){
+                $columns = $this->externalTableConnection($form->id)->get()->first();
+                if ( $columns != null ) {
+                    $columns = $columns->toArray();
+                    unset($columns['model_id'], $columns['created_at'], $columns['updated_at']);
+                    foreach ($columns as $key => $value) {
+                        $values[substr($key, 2)]['value'] = $value;
+                    }
+                }
+            } else {
+                $values = $this->allValues()->get()->whereIn('field_id' ,  $fieldsId )->keyBy('field_id')->toArray();
+            }
             foreach ( $fields as $key => $field ){
                 if ( isset($values[$field['id']]['value']) and ( $values[$field['id']]['value'] != null or $values[$field['id']]['value'] != "" ) )
                     $fields[$key]['value'] = unserialize($values[$field['id']]['value']);
