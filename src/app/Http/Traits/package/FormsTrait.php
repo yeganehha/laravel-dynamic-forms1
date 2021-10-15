@@ -46,7 +46,7 @@ trait FormsTrait
     protected function _form($formName = null , $model = null , $extend_table = false)
     {
         if ( $formName == null ){
-            throw new \ErrorException(trans('dynamicForm::form.sendKeyToCreate' ));
+            throw new \ErrorException('you should send key (or array of key-names) to form method!');
         }
         $formKey = serialize($formName);
         $modelKey = is_object($model) ? get_class($model) : $model;
@@ -60,7 +60,7 @@ trait FormsTrait
             $this->form = $formObject ;
         } else {
             if ( $model == null ){
-                throw new \ErrorException(trans('dynamicForm::form.sendModelToCreate' ) );
+                throw new \ErrorException('you should send model class for creat new form!');
             }
             $data = [
                 'name' => $formKey,
@@ -83,7 +83,7 @@ trait FormsTrait
      */
     protected function isCalled(){
         if ( $this->form == null ){
-            throw new \ErrorException(trans('dynamicForm::form.callFormMethod' ));
+            throw new \ErrorException('First call form([name],[model])');
         }
     }
 
@@ -108,7 +108,7 @@ trait FormsTrait
         $this->isCalled();
         $isExternal = (bool)$isExternal ;
         if ( $this->formExist and $isExternal != $this->form->external_table ) {
-            throw new \ErrorException(trans('dynamicForm::form.canNotChangeStorage' ));
+            throw new \ErrorException('You can not change the storage form of the created form!');
         } elseif ( ! $this->formExist and $isExternal != $this->form->external_table ) {
             $this->form->external_table = $isExternal;
             $this->form->update();
@@ -129,7 +129,7 @@ trait FormsTrait
     {
         $this->isCalled();
         if ( $this->formExist and ! $this->form->external_table ) {
-            throw new \ErrorException(trans('dynamicForm::form.canNotChangeStorage' ));
+            throw new \ErrorException('You can not change the storage form of the created form!');
         } elseif ( ! $this->formExist and ! $this->form->external_table ) {
             $this->form->external_table = true;
             $this->form->update();
@@ -144,7 +144,7 @@ trait FormsTrait
     protected function _setLocalTable(){
         $this->isCalled();
         if ( $this->formExist and $this->form->external_table ) {
-            throw new \ErrorException(trans('dynamicForm::form.canNotChangeStorage' ));
+            throw new \ErrorException('You can not change the storage form of the created form!');
         } elseif ( ! $this->formExist and $this->form->external_table ) {
             $this->form->external_table = false;
             $this->form->update();
@@ -229,7 +229,7 @@ trait FormsTrait
             return false;
         } catch (\Exception $e) {
             DB::rollback();
-            throw new \ErrorException(trans('dynamicForm::form.errorInDeletingForm' , ['errorMessage' => $e->getMessage()]));
+            throw new \ErrorException('Error in Deleting form! '.$e->getMessage());
         }
     }
 }

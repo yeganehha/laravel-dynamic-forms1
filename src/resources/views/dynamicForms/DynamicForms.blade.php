@@ -15,6 +15,6 @@
     @endif
 @else
     <div class="alert alert-danger mt-1">
-        <strong>{{ __('dynamicForm::form.wrongFormId') }}</strong>{{ __('dynamicForm::form.idSend',['id' => $DynamicFormsId]) }}
+        <strong>Wrong Form ID!</strong> ( Id You send: {{ $DynamicFormsId }})
     </div>
 @endif
