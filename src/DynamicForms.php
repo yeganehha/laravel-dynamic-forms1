@@ -97,8 +97,8 @@ class DynamicForms
         return $this->_getModel($returnClass);
     }
 
-    public function setfillOutData($data){
-        $this->_setfillOutData($data);
+    public function setFillOutData($data){
+        $this->_setFillOutData($data);
         return $this;
     }
     public function fillOutForm($model, $autoDetectData = true){

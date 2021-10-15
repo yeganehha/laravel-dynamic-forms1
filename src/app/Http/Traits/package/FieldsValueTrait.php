@@ -136,7 +136,7 @@ trait FieldsValueTrait
     }
 
 
-    protected function _setfillOutData($fieldOutData){
+    protected function _setFillOutData($fieldOutData){
         $this->isCalled();
         $this->FillOutData = $fieldOutData;
     }

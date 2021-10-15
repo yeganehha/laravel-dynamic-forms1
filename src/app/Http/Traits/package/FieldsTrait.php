@@ -58,6 +58,12 @@ trait FieldsTrait
      * @throws \ErrorException
      */
     protected function _setFields($fields = null ){
+        if ( isset($fields['moreField']))
+            $fields = $fields['moreField'];
+        if ( isset($fields[$this->form->id][0]['label'] ))
+            $fields = $fields[$this->form->id];
+        if ( isset($fields[$this->form->id]['label'] ))
+            $fields = $fields[$this->form->id];
         $this->isCalled();
         $insertedId = [];
         $lastExistId = [];
@@ -113,6 +119,12 @@ trait FieldsTrait
 
 
     protected function _addFields($fields = null ){
+        if ( isset($fields['moreField']))
+            $fields = $fields['moreField'];
+        if ( isset($fields[$this->form->id][0]['label'] ))
+            $fields = $fields[$this->form->id];
+        if ( isset($fields[$this->form->id]['label'] ))
+            $fields = $fields[$this->form->id];
         $this->isCalled();
         $insertedId = [];
         if ( isset($fields[0]['label']) ){
