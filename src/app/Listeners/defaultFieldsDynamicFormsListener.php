@@ -25,17 +25,17 @@ class defaultFieldsDynamicFormsListener
      */
     public function handle($event)
     {
-        $event->addField('url','Url box' );
-        $event->addField('password','Password box' );
-        $event->addField('email','Email box' );
-        $event->addField('number','Number box' );
-        $event->addField('select','Select option' );
-        $event->addField('radio','Select radio' );
-        $event->addField('checkbox','Check box' );
-        $event->addField('textarea','Text area' );
-        $event->addField('date','Date' );
-        $event->addField('time','Time'  );
-        $event->addField('datetime-local','Date & Time' );
-        $event->addField('file','File' );
+        $event->addField('url',trans('dynamicForm::form.url' ) );
+        $event->addField('password',trans('dynamicForm::form.password' ) );
+        $event->addField('email',trans('dynamicForm::form.email' ) );
+        $event->addField('number',trans('dynamicForm::form.number' ) );
+        $event->addField('select',trans('dynamicForm::form.select' ) );
+        $event->addField('radio',trans('dynamicForm::form.radio' ));
+        $event->addField('checkbox',trans('dynamicForm::form.checkbox' ) );
+        $event->addField('textarea',trans('dynamicForm::form.textarea' ) );
+        $event->addField('date',trans('dynamicForm::form.date' ) );
+        $event->addField('time',trans('dynamicForm::form.time' )  );
+        $event->addField('datetime-local',trans('dynamicForm::form.datetime-local' ) );
+        $event->addField('file',trans('dynamicForm::form.file' ) );
     }
 }

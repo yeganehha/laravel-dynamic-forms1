@@ -57,7 +57,7 @@ trait FieldsValueTrait
         $modelType = $this->_getModel();
         if ( $this->form->external_table ){
             if (! is_object($model))
-                throw new \ErrorException('Model Should Be Object!');
+                throw new \ErrorException(trans('dynamicForm::form.modelNotObject'));
             $data['model_id'] = $model->id;
             foreach ($validateData as $field_id => $field) {
                 if ($field['type'] == 'file' and is_object($field['value']) and get_class($field['value']) == 'Illuminate\Http\UploadedFile') {
@@ -78,7 +78,7 @@ trait FieldsValueTrait
             if (is_object($model))
                 $model = $model->id;
             if (intval($model) == 0) {
-                throw new \ErrorException('Model Should Be Object!');
+                throw new \ErrorException(trans('dynamicForm::form.modelNotObject') );
             }
             Fieldsvalue::deleteFillOutFields(array_keys($validateData), $model, $modelType);
             foreach ($validateData as $field_id => $field) {
@@ -149,7 +149,7 @@ trait FieldsValueTrait
     protected function _fillOutForm($model, $autoDetectData = true){
         $this->isCalled();
         if ( ( is_object($model) and get_class($model) != $this->form->model ) or ( ! is_object($model) and $model != $this->form->model ) )
-            throw new \ErrorException("This form just for `{$this->form->model}` Model !");
+            throw new \ErrorException(trans('dynamicForm::form.modelShouldBe' , ['model' => $this->form->model]) );
 
         if ( ! is_object($model) )
             $this->isFillOutForm = true ;
@@ -172,7 +172,7 @@ trait FieldsValueTrait
                 }
             } catch (\Exception $e) {
                 DB::rollback();
-                throw new \ErrorException('Error in inserting data! '.$e->getMessage());
+                throw new \ErrorException(trans('dynamicForm::form.errorInInsertData' , ['errorMessage' => $e->getMessage()]) );
             }
         }
         $this->getFillOutedForm($model);

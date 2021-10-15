@@ -31,7 +31,7 @@ trait FieldsTrait
                     $fieldFind->update($field);
                     $id = $fieldFind->id;
                 } elseif ($fieldFind->id != null) {
-                    throw new \ErrorException("Filed with id {$fieldFind->id} is duplicated!");
+                    throw new \ErrorException(trans('dynamicForm::form.fieldDuplicated',['fieldFindId' =>$fieldFind->id]));
                 } else {
                     $newField = $this->form->fields()->create($field);
                     $id = $newField->id;
@@ -89,8 +89,8 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                return back()->withError('Error in field number '.$lastID.' attributes! '.$e->getMessage())->withInput();
-                //throw new \ErrorException('Error in field number '.$lastID.' attributes! '.$e->getMessage());
+                return back()->withError(trans('dynamicForm::form.errorInSetFields',['lastID' =>$lastID , 'errorMessage' => $e->getMessage()]) )->withInput();
+                //throw new \ErrorException(trans('dynamicForm::form.errorInSetFields',['lastID' =>$lastID , 'errorMessage' => $e->getMessage()]));
             }
         } else {
             DB::beginTransaction();
@@ -110,8 +110,8 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                return back()->withError('Error in field attributes! '.$e->getMessage())->withInput();
-                //throw new \ErrorException('Error in field attributes! '.$e->getMessage());
+                return back()->withError(trans('dynamicForm::form.errorInSetFields',['errorMessage' => $e->getMessage()]))->withInput();
+                //throw new \ErrorException(trans('dynamicForm::form.errorInSetFields',['errorMessage' => $e->getMessage()]));
             }
         }
     }
@@ -147,7 +147,7 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                throw new \ErrorException('Error in field number '.$lastID.' attributes! '.$e->getMessage());
+                throw new \ErrorException( trans('dynamicForm::form.errorInSetFields',['lastID' =>$lastID , 'errorMessage' => $e->getMessage()]) );
             }
         } else {
             DB::beginTransaction();
@@ -165,7 +165,7 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                throw new \ErrorException('Error in field attributes! '.$e->getMessage());
+                throw new \ErrorException(trans('dynamicForm::form.errorInSetFields',['errorMessage' => $e->getMessage()]));
             }
         }
     }
@@ -183,7 +183,7 @@ trait FieldsTrait
                 }
                 Fields::where('id', $fieldId['id'])->where('forms_id' ,$this->form->id )->first()->update($fieldId);
             } else {
-                throw new \ErrorException('Please enter field id!');
+                throw new \ErrorException( trans('dynamicForm::form.enterFieldId') );
             }
         } else {
             $validatedData = Validator::make($field ,[
@@ -205,7 +205,7 @@ trait FieldsTrait
                 Fields::where('id', $fieldId['id'])->where('forms_id' ,$this->form->id )->first()->delete();
                 $this->syncExternalTableAndModel([],[$fieldId['id']]);
             } else {
-                throw new \ErrorException('Please enter field id!');
+                throw new \ErrorException(trans('dynamicForm::form.enterFieldId'));
             }
         } else {
             Fields::where('id', $fieldId)->where('forms_id' ,$this->form->id )->first()->delete();
