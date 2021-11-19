@@ -41,4 +41,5 @@ return [
     'delete' => 'Delete',
     'more' => 'More',
     'add' => 'Add New Field',
+    'css_class' => 'style class name(`Div,Label,InputDiv,Input,Description`)',
 ];

@@ -70,6 +70,7 @@ trait FieldsTrait
         if ( isset($fields[0]['label']) ){
             DB::beginTransaction();
             $lastID = 0 ;
+            $this->FillOutError = false;
             try {
                 if ( $this->form->external_table ) {
                     $lastFields = $this->getFields(true, true);
@@ -89,11 +90,12 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                return back()->withError(trans('dynamicForm::form.errorInSetFields',['lastID' =>$lastID , 'errorMessage' => $e->getMessage()]) )->withInput();
+                $this->FillOutError = trans('dynamicForm::form.errorInSetFields',['lastID' =>$lastID , 'errorMessage' => $e->getMessage()]) ;
                 //throw new \ErrorException(trans('dynamicForm::form.errorInSetFields',['lastID' =>$lastID , 'errorMessage' => $e->getMessage()]));
             }
         } else {
             DB::beginTransaction();
+            $this->FillOutError = false ;
             try {
                 if ( $this->form->external_table ) {
                     $lastFields = $this->getFields(true, true);
@@ -110,7 +112,7 @@ trait FieldsTrait
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollback();
-                return back()->withError(trans('dynamicForm::form.errorInSetFields',['errorMessage' => $e->getMessage()]))->withInput();
+                $this->FillOutError = trans('dynamicForm::form.errorInSetFields',['lastID' =>0 , 'errorMessage' => $e->getMessage()]) ;
                 //throw new \ErrorException(trans('dynamicForm::form.errorInSetFields',['errorMessage' => $e->getMessage()]));
             }
         }
@@ -272,10 +274,10 @@ trait FieldsTrait
         $modelNameSpace =explode('\\' ,$this->form->model );
         $modelName = lcfirst(end($modelNameSpace));
         $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
-        $tableName = $DynamicFormModelName .'_'. $modelName;
-        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
-            $tableName = $modelName .'_'. $DynamicFormModelName;
-        }
+        $tableName = 'dynamicForm'.'___'.$modelName .'_'. $this->form->id;
+//        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
+//            $tableName = $modelName .'_'. $DynamicFormModelName;
+//        }
 
         Schema::table($tableName, function($table) use ($deletedFields, $newFields) {
             if ( is_array($newFields) )
