@@ -20,10 +20,10 @@ trait FormsTrait
         $modelObject = new $tempModelNameSpace();
         $modelTable = $modelObject->getTable();
         $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
-        $tableName = $DynamicFormModelName .'_'. $modelName;
-        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
-            $tableName = $modelName .'_'. $DynamicFormModelName;
-        }
+        $tableName = 'dynamicForm'.'___'.$modelName .'_'. $this->form->id;
+//        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
+//            $tableName = $modelName .'_'. $DynamicFormModelName;
+//        }
         Schema::create($tableName, function($table) use ($modelTable) {
             $table->unsignedBigInteger('model_id');
             $table->foreign('model_id')->on($modelTable)->references('id')->onDelete('cascade')->onUpdate('cascade');
@@ -36,10 +36,10 @@ trait FormsTrait
         $modelNameSpace =explode('\\' ,$this->form->model );
         $modelName = lcfirst(end($modelNameSpace));
         $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
-        $tableName = $DynamicFormModelName .'_'. $modelName;
-        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
-            $tableName = $modelName .'_'. $DynamicFormModelName;
-        }
+        $tableName = 'dynamicForm'.'___'.$modelName .'_'. $this->form->id;
+//        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
+//            $tableName = $modelName .'_'. $DynamicFormModelName;
+//        }
         Schema::dropIfExists($tableName);
         $this->removeModelFileContent();
     }

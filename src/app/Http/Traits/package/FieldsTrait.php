@@ -272,10 +272,10 @@ trait FieldsTrait
         $modelNameSpace =explode('\\' ,$this->form->model );
         $modelName = lcfirst(end($modelNameSpace));
         $DynamicFormModelName = 'dynamicForm'.$this->form->id ;
-        $tableName = $DynamicFormModelName .'_'. $modelName;
-        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
-            $tableName = $modelName .'_'. $DynamicFormModelName;
-        }
+        $tableName = 'dynamicForm'.'___'.$modelName .'_'. $this->form->id;
+//        if ( strcasecmp($modelName , $DynamicFormModelName) < 0 ){
+//            $tableName = $modelName .'_'. $DynamicFormModelName;
+//        }
 
         Schema::table($tableName, function($table) use ($deletedFields, $newFields) {
             if ( is_array($newFields) )
