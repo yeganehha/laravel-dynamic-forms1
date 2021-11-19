@@ -1,5 +1,5 @@
 {
-    "name": "yeganehha/daynamic-forms",
+    "name": "yeganehha/laravel-dynamic-forms",
     "description": "Create different forms for each part of the site, such as registration, which can be edited by the admin.",
     "type": "library",
     "license": "MIT",
@@ -14,7 +14,7 @@
                 "Yeganehha\\DynamicForms\\DynamicFormsServiceProvider"
             ],
             "aliases": {
-                "DaynamicForms": "Yeganehha\\DynamicForms\\Facades\\DynamicFormsFacade"
+                "DynamicForms": "Yeganehha\\DynamicForms\\Facades\\DynamicFormsFacade"
             }
         }
     },
