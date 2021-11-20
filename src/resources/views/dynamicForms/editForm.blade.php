@@ -46,7 +46,7 @@
                         <div class="row moreFieldsItemMoreConfig{{$DynamicFormsId}}_{{ $i }} border rounded pb-2 mt-2" style="display: none;">
                             <div class="col-md-8">
                                 <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.defaultValue') }}</label>
-                                <div class="col-md-12 border-bottom ">
+                                <div class="col-md-12">
                                     <input type="text" name="moreField[{{$DynamicFormsId}}][{{ $i }}][values]" value="{{ old('moreField.'.$DynamicFormsId.'.'.$i.'.values' , "") }}" class="form-control"  placeholder="{{ __('dynamicForm::form.defaultValue') }}">
                                 </div>
                             </div>
@@ -58,13 +58,13 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.validation') }}</label>
-                                <div class="col-md-12 border-bottom  text-left">
+                                <div class="col-md-12 text-left">
                                     <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $i }}][validate]" value="{{ old('moreField.'.$DynamicFormsId.'.'.$i.'.validate' , "") }}"  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.validation') }}">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.css_class') }}</label>
-                                <div class="col-md-12 border-bottom  text-left">
+                                <div class="col-md-12 text-left">
                                     <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $i }}][css_class]" value="{{ old('moreField.'.$DynamicFormsId.'.'.$i.'.css_class' , "") }}"  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.css_class') }}">
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                     <div class="row moreFieldsItemMoreConfig{{$DynamicFormsId}}_{{ $key }} border rounded pb-2 mt-2" style="display: none;">
                         <div class="col-md-8">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.defaultValue') }}</label>
-                            <div class="col-md-12 border-bottom ">
+                            <div class="col-md-12">
                                 <input type="text" name="moreField[{{$DynamicFormsId}}][{{ $key }}][values]" value="{{$field->values}}" class="form-control"  placeholder="">
                             </div>
                         </div>
@@ -147,13 +147,13 @@
                         </div>
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.validation') }}</label>
-                            <div class="col-md-12 border-bottom  text-left">
+                            <div class="col-md-12 text-left">
                                 <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][validate]" value="{{$field->validate}}"  class="form-control " dir="ltr" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.css_class') }}</label>
-                            <div class="col-md-12 border-bottom  text-left">
+                            <div class="col-md-12 text-left">
                                 <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][css_class]" value="{{ $field->css_class }}"  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.css_class') }}">
                             </div>
                         </div>
@@ -235,7 +235,7 @@
                     <div class="row moreFieldsItemMoreConfig{{$DynamicFormsId}}___IIDD__ border rounded pb-2 mt-2" style="display: none;">
                         <div class="col-md-8">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.defaultValue') }}</label>
-                            <div class="col-md-12 border-bottom ">
+                            <div class="col-md-12">
                                 <input type="text"   nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][values]" value="" class="form-control"   placeholder="">
                             </div>
                         </div>
@@ -247,13 +247,13 @@
                         </div>
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.validation') }}</label>
-                            <div class="col-md-12 border-bottom  text-left">
+                            <div class="col-md-12 text-left">
                                 <input type="text"   nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][validate]" value="" class="form-control " dir="ltr" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.css_class') }}</label>
-                            <div class="col-md-12 border-bottom  text-left">
+                            <div class="col-md-12 text-left">
                                 <input type="text"  nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][css_class]" value=""  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.css_class') }}">
                             </div>
                         </div>
