@@ -62,8 +62,6 @@ trait FieldsTrait
             $fields = $fields['moreField'];
         if ( isset($fields[$this->form->id][0]['label'] ))
             $fields = $fields[$this->form->id];
-        if ( isset($fields[$this->form->id]['label'] ))
-            $fields = $fields[$this->form->id];
         $this->isCalled();
         $insertedId = [];
         $lastExistId = [];
