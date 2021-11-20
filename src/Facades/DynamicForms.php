@@ -6,6 +6,7 @@ use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @method static DynamicForms form(Mixed $formName ,Mixed $model,Boolean $extend_table = false) Make new or import form.
+ * @method static DynamicForms|false exist(Mixed $formName) check form exist.
  * @method static boolean getTable() this form use external table or not.
  * @method static DynamicForms setTable(Boolean $isExternal) set form use external table or not.
  * @method static DynamicForms setExternalTable() set form use external table.
@@ -24,7 +25,7 @@ use phpDocumentor\Reflection\Types\Integer;
  * @method static int|DynamicForms getId(Boolean $ViewVariable = false) get id of form.
  * @method static Boolean getError() get form has error.
  * @method static DynamicForms addFieldType(String $name ,String $label = null ,String $view = null) creat new field type.
- * @method static DynamicForms removeFieldType(String $name ) remove new field type.
+ * @method static DynamicForms removeFieldType(String $name , ...$name) remove new field type.
  * @method static Boolean deleteForm() delete form.
  * Class DynamicForms
  * @package Yeganehha\DynamicForms\Facades

@@ -77,6 +77,21 @@ trait FormsTrait
         typefieldsForDynamicFormsEvent::clearFields();
     }
 
+    protected function _exist($formName)
+    {
+        if ( $formName == null ){
+            throw new \ErrorException(trans('dynamicForm::form.sendKeyToCreate' ));
+        }
+        $formKey = serialize($formName);
+        $formObject = Forms::where('name', $formKey)->first();
+        if ( $formObject != null ){
+            $this->formExist = true;
+            $this->form = $formObject ;
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * @throws \ErrorException

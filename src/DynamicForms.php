@@ -1,6 +1,7 @@
 <?php
 namespace Yeganehha\DynamicForms;
 
+use Illuminate\Foundation\Mix;
 use Yeganehha\DynamicForms\app\Http\Traits\package\FieldsTrait;
 use Yeganehha\DynamicForms\app\Http\Traits\package\FieldsValueTrait;
 use Yeganehha\DynamicForms\app\Http\Traits\package\FormsTrait;
@@ -21,6 +22,16 @@ class DynamicForms
     {
        $this->_form($formName,$model,$extend_table);
        return $this;
+    }
+
+    /**
+     * @param Mixed $formName
+     * @return false|DynamicForms
+     * @throws \ErrorException
+     */
+    public function exist($formName)
+    {
+       return ( $this->_exist($formName) ) ? $this : false ;
     }
 
     /**
