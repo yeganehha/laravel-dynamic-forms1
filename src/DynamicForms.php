@@ -144,6 +144,9 @@ class DynamicForms
     public function render(){
         return $this->_render();
     }
+    public function renderEditor(){
+        return $this->_renderEditor();
+    }
 
     public function getId($ViewVariable = false){
         return $this->_getId($ViewVariable) ?? $this ;

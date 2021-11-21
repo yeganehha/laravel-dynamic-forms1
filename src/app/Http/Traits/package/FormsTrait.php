@@ -217,11 +217,7 @@ trait FormsTrait
 
     protected function _render(){
         $this->isCalled();
-        if ( $this->isFillOutForm != false ) {
-            $moreField = $this->FillOutedData;
-        } else{
-            $moreField = $this->getFields(false,true);
-        }
+        $moreField = $this->FillOutedData;
         $fieldType = $this->fieldsType;
         $html = "";
         $DFId = $this->form->id ;
@@ -234,6 +230,15 @@ trait FormsTrait
                 }
             }
         }
+        return $html;
+    }
+
+    protected function _renderEditor(){
+        $this->isCalled();
+        $DynamicFormsField[$this->form->id] = $this->getFields(false,true);
+        $DynamicFormsFieldType[$this->form->id] = $this->fieldsType;
+        $DynamicFormsId = $this->form->id;
+        $html = view('DynamicForms::editForm' , compact('DynamicFormsId' , 'DynamicFormsFieldType' , 'DynamicFormsField' ))->render();
         return $html;
     }
 
