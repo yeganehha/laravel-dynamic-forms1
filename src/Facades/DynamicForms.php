@@ -24,6 +24,7 @@ use phpDocumentor\Reflection\Types\Integer;
  * @method static DynamicForms editForm() set form for edit fill outed form.
  * @method static DynamicForms view() generate form for blade.
  * @method static string render() generate html output.
+ * @method static string __toString() generate html output.
  * @method static int|DynamicForms getId(Boolean $ViewVariable = false) get id of form.
  * @method static Boolean getError() get form has error.
  * @method static DynamicForms addFieldType(String $name ,String $label = null ,String $view = null) creat new field type.

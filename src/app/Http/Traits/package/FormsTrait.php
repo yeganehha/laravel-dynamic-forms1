@@ -237,6 +237,31 @@ trait FormsTrait
         return $html;
     }
 
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return $this->render();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toInt() {
+        return $this->render();
+    }
+
+    public function __invoke($name , $model = null)
+    {
+        $result = $this->findById($name);
+        if ( $result == false ){
+            $result = $this->exist($name);
+        }
+        if ( $result == false ){
+            $result = $this->form($name , $model);
+        }
+        return $result;
+    }
 
     protected function _getId($ViewVariable = false){
         $this->isCalled();
