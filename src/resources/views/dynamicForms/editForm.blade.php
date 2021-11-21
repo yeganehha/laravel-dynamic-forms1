@@ -63,9 +63,13 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.css_class') }}</label>
-                                <div class="col-md-12 text-left">
-                                    <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $i }}][css_class]" value="{{ old('moreField.'.$DynamicFormsId.'.'.$i.'.css_class' , "") }}"  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.css_class') }}">
+                                <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.blade_template') }}</label>
+                                <div class="col-md-12">
+                                    <select class="form-control"  name="moreField[{{$DynamicFormsId}}][{{ $i }}][blade_template]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
+                                        @foreach($DynamicFormsTemplate[$DynamicFormsId] as $bladeFile => $bladeLabel )
+                                            <option value="{{$bladeFile}}" @if ( old('moreField.'.$DynamicFormsId.'.'.$i.'.blade_template' , "") == $fieldType['name'] ) selected @endif>{{$bladeLabel}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -152,9 +156,13 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.css_class') }}</label>
-                            <div class="col-md-12 text-left">
-                                <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][css_class]" value="{{ $field->css_class }}"  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.css_class') }}">
+                            <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.blade_template') }}</label>
+                            <div class="col-md-12">
+                                <select class="form-control"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][blade_template]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
+                                    @foreach($DynamicFormsTemplate[$DynamicFormsId] as $bladeFile => $bladeLabel )
+                                        <option value="{{$bladeFile}}" @if ( $field->blade_template == $fieldType['name'] ) selected @endif>{{$bladeLabel}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -252,9 +260,13 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.css_class') }}</label>
+                            <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.blade_template') }}</label>
                             <div class="col-md-12 text-left">
-                                <input type="text"  nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][css_class]" value=""  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.css_class') }}">
+                                <select class="form-control"  nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][blade_template]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
+                                    @foreach($DynamicFormsTemplate[$DynamicFormsId] as $bladeFile => $bladeLabel )
+                                        <option value="{{$bladeFile}}">{{$bladeLabel}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

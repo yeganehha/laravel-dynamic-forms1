@@ -27,7 +27,7 @@ return [
     'number' => 'Number box',
     'email' => 'Email box',
     'wrongFormId' => 'Wrong Form ID!',
-    'idSend' => 'W( Id You send: :id)',
+    'idSend' => ' ( Id You send: :id)',
     'label' => 'Label',
     'type' => 'Type of field',
     'description' => 'Description',
@@ -41,7 +41,10 @@ return [
     'delete' => 'Delete',
     'more' => 'More',
     'add' => 'Add New Field',
-    'css_class' => 'style class name(`Div,Label,InputDiv,Input,Description`)',
+    'blade_template' => 'theme for show field',
     'can_nor_find_form' => 'Can not find any form!',
     'download_file' => 'Download last file.',
+    'template' => [
+        'bootstrap' => 'Default bootstrap theme'
+    ]
 ];

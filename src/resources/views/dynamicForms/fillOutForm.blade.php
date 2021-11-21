@@ -69,7 +69,7 @@
         <div class="{{ $DynamicFormsStyle['Div'] }}">
             <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif </label>
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
-                @if ( $field->value != null ) <a href="{{$field->value}}" class="{{ $css_class[3] ?? "" }}" target="_blank">Download last file.</a> @endif
+                @if ( $field->value != null ) <a href="{{$field->value}}" class="{{ $blade_template[3] ?? "" }}" target="_blank">Download last file.</a> @endif
                 @if ( $field->value != null )
                     <input type="hidden"  id="fieldHiddenHash_{{$field->id}}" name="dynamicFormsHash[{{$field->id}}]" value="{{$field->valueHash}}">
                     <input type="hidden"  id="fieldHidden_{{$field->id}}" name="dynamicForms[{{$DynamicFormsId}}][{{$field->id}}]" value="{{$field->valueFile}}">

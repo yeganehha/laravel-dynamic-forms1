@@ -32,7 +32,7 @@ class CreateFormsTable extends Migration
             $table->string('type_variable')->default('text');
             $table->enum('status',['show','hidden','required'])->default('show');
             $table->integer('order_number')->default(0);
-            $table->string('css_class')->nullable();
+            $table->string('blade_template')->nullable();
             $table->timestamps();
         });
 

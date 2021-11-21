@@ -13,6 +13,7 @@ trait FieldsTrait
 {
     protected $showHidden = false ;
     protected $fieldsType = [] ;
+    protected $fieldsTemplate = [] ;
 
     /**
      * @throws \ErrorException

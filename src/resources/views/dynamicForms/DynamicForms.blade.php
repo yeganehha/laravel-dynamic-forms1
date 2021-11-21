@@ -1,7 +1,7 @@
-@if ( isset($dynamicFormsType[$DynamicFormsId]) )
-    @if ($dynamicFormsType[$DynamicFormsId] == 'editForm')
+@if ( isset($DynamicFormsType[$DynamicFormsId]) )
+    @if ($DynamicFormsType[$DynamicFormsId] == 'editForm')
         @include("DynamicForms::editForm" , ["DynamicFormsId" => $DynamicFormsId])
-    @elseif ($dynamicFormsType[$DynamicFormsId] == 'fillOut')
+    @elseif ($DynamicFormsType[$DynamicFormsId] == 'fillOut')
         @include("DynamicForms::fillOutForm" ,
                 ["DynamicFormsId" => $DynamicFormsId ,
                  "DynamicFormsStyle" => [

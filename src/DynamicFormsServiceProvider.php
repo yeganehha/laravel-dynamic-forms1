@@ -1,7 +1,11 @@
 <?php
 namespace Yeganehha\DynamicForms;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
+use Yeganehha\DynamicForms\app\View\Components\fillOutForm;
+use Yeganehha\DynamicForms\app\View\Components\makeForm;
 
 class DynamicFormsServiceProvider extends ServiceProvider
 {
@@ -34,5 +38,14 @@ class DynamicFormsServiceProvider extends ServiceProvider
             __DIR__ . DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'dynamicForms' => resource_path('views/vendor/dynamicForms'),
             __DIR__.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'lang' => resource_path('lang/vendor/dynamicForms'),
         ]);
+        $this->configureComponents();
+    }
+
+    protected function configureComponents()
+    {
+        $this->callAfterResolving(BladeCompiler::class, function () {
+            Blade::component(fillOutForm::class, 'dynamic-form-fill');
+            Blade::component(makeForm::class, 'dynamic-form');
+        });
     }
 }

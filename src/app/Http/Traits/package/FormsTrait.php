@@ -5,6 +5,7 @@ namespace Yeganehha\DynamicForms\app\Http\Traits\package;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Yeganehha\DynamicForms\app\Events\bladeDynamicFormsEvent;
 use Yeganehha\DynamicForms\app\Events\typefieldsForDynamicFormsEvent;
 use Yeganehha\DynamicForms\Models\Forms;
 
@@ -72,9 +73,13 @@ trait FormsTrait
                 $this->creatExternalTable();
             }
         }
+
         event(new typefieldsForDynamicFormsEvent($this->form));
         $this->fieldsType = typefieldsForDynamicFormsEvent::getFields();
         typefieldsForDynamicFormsEvent::clearFields();
+        event(new bladeDynamicFormsEvent($this->form));
+        $this->fieldsTemplate = bladeDynamicFormsEvent::getTemplate();
+        bladeDynamicFormsEvent::clearTemplates();
     }
 
     protected function _exist($formName)
@@ -87,6 +92,12 @@ trait FormsTrait
         if ( $formObject != null ){
             $this->formExist = true;
             $this->form = $formObject ;
+            event(new typefieldsForDynamicFormsEvent($this->form));
+            $this->fieldsType = typefieldsForDynamicFormsEvent::getFields();
+            typefieldsForDynamicFormsEvent::clearFields();
+            event(new bladeDynamicFormsEvent($this->form));
+            $this->fieldsTemplate = bladeDynamicFormsEvent::getTemplate();
+            bladeDynamicFormsEvent::clearTemplates();
             return true;
         }
         return false;
@@ -98,6 +109,12 @@ trait FormsTrait
         if ( $formObject != null ){
             $this->formExist = true;
             $this->form = $formObject ;
+            event(new typefieldsForDynamicFormsEvent($this->form));
+            $this->fieldsType = typefieldsForDynamicFormsEvent::getFields();
+            typefieldsForDynamicFormsEvent::clearFields();
+            event(new bladeDynamicFormsEvent($this->form));
+            $this->fieldsTemplate = bladeDynamicFormsEvent::getTemplate();
+            bladeDynamicFormsEvent::clearTemplates();
             return true;
         }
         return false;
@@ -196,21 +213,24 @@ trait FormsTrait
 
     protected function _view(){
         $this->isCalled();
-        $dynamicFormsType = isset(view()->getShared()['dynamicFormsType']) ? view()->getShared()['dynamicFormsType'] : [];
-        $moreField = isset(view()->getShared()['moreField']) ? view()->getShared()['moreField'] : [];
-        $fieldType = isset(view()->getShared()['fieldType']) ? view()->getShared()['fieldType'] : [];
+        $DynamicFormsType = view()->getShared()['DynamicFormsType'] ?? [];
+        $moreField = view()->getShared()['DynamicFormsField'] ?? [];
+        $fieldType = view()->getShared()['DynamicFormsFieldType'] ?? [];
         if ( $this->isFillOutForm != false ) {
             $moreField[$this->form->id] = $this->FillOutedData;
             $fieldType[$this->form->id] = $this->fieldsType;
-            $dynamicFormsType[$this->form->id] = 'fillOut';
+            $DynamicFormsType[$this->form->id] = 'fillOut';
         } else{
             $moreField[$this->form->id] = $this->getFields(false,true);
             $fieldType[$this->form->id] = $this->fieldsType;
-            $dynamicFormsType[$this->form->id] = 'editForm';
+            $DynamicFormsType[$this->form->id] = 'editForm';
+            $DynamicFormsTemplate= view()->getShared()['DynamicFormsTemplate'] ?? [];
+            $DynamicFormsTemplate[$this->form->id] = $this->fieldsTemplate;
+            view()->share('DynamicFormsTemplate', $DynamicFormsTemplate);
         }
         view()->share('DynamicFormsField', $moreField);
         view()->share('DynamicFormsFieldType', $fieldType);
-        view()->share('dynamicFormsType', $dynamicFormsType);
+        view()->share('DynamicFormsType', $DynamicFormsType);
         view()->share('DynamicFormsId', $this->form->id);
         return $this;
     }
@@ -223,8 +243,8 @@ trait FormsTrait
         $DFId = $this->form->id ;
         if ( is_array($moreField) ){
             foreach($moreField as $field){
-                if ( $field->css_class != null and view()->exists($field->css_class ) ){
-                    $html .= view($field->css_class , compact('field' , 'fieldType' , 'DFId' ))->render();
+                if ( $field->blade_template != null and view()->exists($field->blade_template ) ){
+                    $html .= view($field->blade_template , compact('field' , 'fieldType' , 'DFId' ))->render();
                 } else {
                     $html .= view('DynamicForms::component.fillOut-bootstrap' , compact('field' , 'fieldType' , 'DFId' ))->render();
                 }
@@ -237,8 +257,9 @@ trait FormsTrait
         $this->isCalled();
         $DynamicFormsField[$this->form->id] = $this->getFields(false,true);
         $DynamicFormsFieldType[$this->form->id] = $this->fieldsType;
+        $DynamicFormsTemplate[$this->form->id] = $this->fieldsTemplate;
         $DynamicFormsId = $this->form->id;
-        $html = view('DynamicForms::editForm' , compact('DynamicFormsId' , 'DynamicFormsFieldType' , 'DynamicFormsField' ))->render();
+        $html = view('DynamicForms::editForm' , compact('DynamicFormsId' , 'DynamicFormsFieldType' , 'DynamicFormsField' , 'DynamicFormsTemplate' ))->render();
         return $html;
     }
 
@@ -290,15 +311,18 @@ trait FormsTrait
                 $directory = 'DynamicForms/' . $this->form->id . '-' . implode('/', (array)unserialize($this->form->name));
                 if ( ! Storage::exists($directory) or Storage::deleteDirectory($directory)) {
                     DB::commit();
-                    $dynamicFormsType = isset(view()->getShared()['dynamicFormsType']) ? view()->getShared()['dynamicFormsType'] : [];
-                    $moreField = isset(view()->getShared()['moreField']) ? view()->getShared()['moreField'] : [];
-                    $fieldType = isset(view()->getShared()['fieldType']) ? view()->getShared()['fieldType'] : [];
+                    $DynamicFormsType = view()->getShared()['DynamicFormsType'] ?? [];
+                    $moreField = view()->getShared()['DynamicFormsField'] ?? [];
+                    $fieldType = view()->getShared()['DynamicFormsFieldType'] ?? [];
+                    $DynamicFormsTemplate = view()->getShared()['DynamicFormsTemplate'] ?? [];
                     unset($moreField[$this->form->id]);
                     unset($fieldType[$this->form->id]);
-                    unset($dynamicFormsType[$this->form->id]);
+                    unset($DynamicFormsType[$this->form->id]);
+                    unset($DynamicFormsTemplate[$this->form->id]);
                     view()->share('DynamicFormsField', $moreField);
                     view()->share('DynamicFormsFieldType', $fieldType);
-                    view()->share('dynamicFormsType', $dynamicFormsType);
+                    view()->share('DynamicFormsType', $DynamicFormsType);
+                    view()->share('DynamicFormsTemplate', $DynamicFormsTemplate);
                     $this->form = null;
                     return true;
                 }
