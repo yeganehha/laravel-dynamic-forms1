@@ -92,6 +92,17 @@ trait FormsTrait
         return false;
     }
 
+    protected function _findById($formId)
+    {
+        $formObject = Forms::where('id', $formId)->first();
+        if ( $formObject != null ){
+            $this->formExist = true;
+            $this->form = $formObject ;
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * @throws \ErrorException

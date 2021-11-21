@@ -6,6 +6,7 @@ use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @method static DynamicForms form(Mixed $formName ,Mixed $model,Boolean $extend_table = false) Make new or import form.
+ * @method static DynamicForms findById(Integer $form_id) import form from ID.
  * @method static DynamicForms|false exist(Mixed $formName) check form exist.
  * @method static boolean getTable() this form use external table or not.
  * @method static DynamicForms setTable(Boolean $isExternal) set form use external table or not.

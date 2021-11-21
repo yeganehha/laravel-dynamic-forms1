@@ -35,6 +35,16 @@ class DynamicForms
     }
 
     /**
+     * @param int $formName
+     * @return false|DynamicForms
+     * @throws \ErrorException
+     */
+    public function findById($form_id)
+    {
+       return ( $this->_findById($form_id) ) ? $this : false ;
+    }
+
+    /**
      * @return bool
      * @throws \ErrorException
      */
