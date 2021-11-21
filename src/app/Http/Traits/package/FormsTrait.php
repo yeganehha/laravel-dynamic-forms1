@@ -215,6 +215,28 @@ trait FormsTrait
         return $this;
     }
 
+    protected function _render(){
+        $this->isCalled();
+        if ( $this->isFillOutForm != false ) {
+            $moreField = $this->FillOutedData;
+        } else{
+            $moreField = $this->getFields(false,true);
+        }
+        $fieldType = $this->fieldsType;
+        $html = "";
+        $DFId = $this->form->id ;
+        if ( is_array($moreField) ){
+            foreach($moreField as $field){
+                if ( $field->css_class != null and view()->exists($field->css_class ) ){
+                    $html .= view($field->css_class , compact('field' , 'fieldType' , 'DFId' ))->render();
+                } else {
+                    $html .= view('DynamicForms::component.fillOut-bootstrap' , compact('field' , 'fieldType' , 'DFId' ))->render();
+                }
+            }
+        }
+        return $html;
+    }
+
 
     protected function _getId($ViewVariable = false){
         $this->isCalled();

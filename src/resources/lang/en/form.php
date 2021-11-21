@@ -42,4 +42,6 @@ return [
     'more' => 'More',
     'add' => 'Add New Field',
     'css_class' => 'style class name(`Div,Label,InputDiv,Input,Description`)',
+    'can_nor_find_form' => 'Can not find any form!',
+    'download_file' => 'Download last file.',
 ];
