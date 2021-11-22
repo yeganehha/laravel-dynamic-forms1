@@ -62,7 +62,7 @@
                                     <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $i }}][validate]" value="{{ old('moreField.'.$DynamicFormsId.'.'.$i.'.validate' , "") }}"  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.validation') }}">
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.blade_template') }}</label>
                                 <div class="col-md-12">
                                     <select class="form-control"  name="moreField[{{$DynamicFormsId}}][{{ $i }}][blade_template]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
@@ -70,6 +70,12 @@
                                             <option value="{{$bladeFile}}" @if ( old('moreField.'.$DynamicFormsId.'.'.$i.'.blade_template' , "") == $fieldType['name'] ) selected @endif>{{$bladeLabel}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.font_icon') }}</label>
+                                <div class="col-md-12 text-left">
+                                    <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $i }}][font_icon]" value="{{ old('moreField.'.$DynamicFormsId.'.'.$i.'.font_icon' , "") }}"  class="form-control " dir="ltr"  placeholder="{{ __('dynamicForm::form.font_icon') }}">
                                 </div>
                             </div>
                         </div>
@@ -155,7 +161,7 @@
                                 <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][validate]" value="{{$field->validate}}"  class="form-control " dir="ltr" placeholder="">
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.blade_template') }}</label>
                             <div class="col-md-12">
                                 <select class="form-control"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][blade_template]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
@@ -163,6 +169,12 @@
                                         <option value="{{$bladeFile}}" @if ( $field->blade_template == $fieldType['name'] ) selected @endif>{{$bladeLabel}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.font_icon') }}</label>
+                            <div class="col-md-12 text-left">
+                                <input type="text"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][font_icon]" value="{{$field->font_icon}}"  class="form-control " dir="ltr" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -259,7 +271,7 @@
                                 <input type="text"   nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][validate]" value="" class="form-control " dir="ltr" placeholder="">
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.blade_template') }}</label>
                             <div class="col-md-12 text-left">
                                 <select class="form-control"  nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][blade_template]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
@@ -267,6 +279,12 @@
                                         <option value="{{$bladeFile}}">{{$bladeLabel}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="col-md-12 col-form-label">{{ __('dynamicForm::form.font_icon') }}</label>
+                            <div class="col-md-12 text-left">
+                                <input type="text"   nameOFInputBox="moreField[{{$DynamicFormsId}}][__IIDD__][font_icon]" value="" class="form-control " dir="ltr" placeholder="">
                             </div>
                         </div>
                     </div>

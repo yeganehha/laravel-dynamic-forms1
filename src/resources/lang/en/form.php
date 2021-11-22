@@ -44,6 +44,7 @@ return [
     'blade_template' => 'theme for show field',
     'can_nor_find_form' => 'Can not find any form!',
     'download_file' => 'Download last file.',
+    'font_icon' => 'Font Icon',
     'template' => [
         'bootstrap' => 'Default bootstrap theme'
     ]

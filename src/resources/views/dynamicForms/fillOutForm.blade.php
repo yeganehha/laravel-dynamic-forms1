@@ -1,7 +1,7 @@
 @foreach($DynamicFormsField[$DynamicFormsId] as $key => $field)
     @if($field->type_variable == 'textarea')
         <div class="{{ $DynamicFormsStyle['Div'] }}">
-        <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
+        <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">@if($field->font_icon != '')<i class="{{$field->font_icon}}"></i> @endif{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
         <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
             <div class="form-check">
                 <textarea rows="4" cols="50"  class="{{ $DynamicFormsStyle['Input'] }} @error($field->label) is-invalid @enderror " id="field_{{$DynamicFormsId}}_{{$field->id}}" @if($field->status == 'required') required @endif name="dynamicForms[{{$DynamicFormsId}}][{{$field->id}}]" >{{ old("dynamicForms.{$DynamicFormsId}.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) }}</textarea>
@@ -14,7 +14,7 @@
     </div>
     @elseif($field->type_variable ==  'checkbox')
         <div class="{{ $DynamicFormsStyle['Div'] }}">
-            <label class="{{ $DynamicFormsStyle['Label'] }}" style="display: none;" for="field_{{$DynamicFormsId}}_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
+            <label class="{{ $DynamicFormsStyle['Label'] }}" style="display: none;" for="field_{{$DynamicFormsId}}_{{$field->id}}">@if($field->font_icon != '')<i class="{{$field->font_icon}}"></i> @endif{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
                 @foreach($field->valuesDe as $keyValue => $value)
                 <div class="form-check">
@@ -32,7 +32,7 @@
         </div>
     @elseif($field->type_variable ==  'radio')
         <div class="{{ $DynamicFormsStyle['Div'] }}">
-            <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
+            <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">@if($field->font_icon != '')<i class="{{$field->font_icon}}"></i> @endif{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
                 @foreach($field->valuesDe as $keyValue => $value)
                 <div class="form-check">
@@ -50,7 +50,7 @@
         </div>
     @elseif($field->type_variable ==  'select')
         <div class="{{ $DynamicFormsStyle['Div'] }}">
-            <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
+            <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">@if($field->font_icon != '')<i class="{{$field->font_icon}}"></i> @endif{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
                 <select class="{{ $DynamicFormsStyle['Input'] }} @error($field->label) is-invalid @enderror" id="field_{{$DynamicFormsId}}_{{$field->id}}" name="dynamicForms[{{$DynamicFormsId}}][{{$field->id}}]" @if($field->status == 'required') required @endif>
                 @foreach($field->valuesDe as $keyValue => $value)
@@ -67,7 +67,7 @@
 
     @elseif($field->type_variable ==  'file')
         <div class="{{ $DynamicFormsStyle['Div'] }}">
-            <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif </label>
+            <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">@if($field->font_icon != '')<i class="{{$field->font_icon}}"></i> @endif{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif </label>
             <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
                 @if ( $field->value != null ) <a href="{{$field->value}}" class="{{ $blade_template[3] ?? "" }}" target="_blank">Download last file.</a> @endif
                 @if ( $field->value != null )
@@ -99,7 +99,7 @@
                   ])
         @else
             <div class="{{ $DynamicFormsStyle['Div'] }}">
-                <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
+                <label class="{{ $DynamicFormsStyle['Label'] }}" for="field_{{$DynamicFormsId}}_{{$field->id}}">@if($field->font_icon != '')<i class="{{$field->font_icon}}"></i> @endif{{$field->label}} @if ( $field->status == 'required' ) <span class="text-danger">*</span>@endif</label>
                 <div class="{{ $DynamicFormsStyle['InputDiv'] }}">
                     <input type="{{ $field->type_variable }}"  id="field_{{$DynamicFormsId}}_{{$field->id}}" @if($field->status == 'required') required @endif name="dynamicForms[{{$DynamicFormsId}}][{{$field->id}}]" value="{{ old("dynamicForms.{$DynamicFormsId}.{$field->id}" , ( $field->value ) ? $field->value : $field->values ) }}" class="{{ $DynamicFormsStyle['Input'] }} @error($field->label) is-invalid @enderror">
                     @error($field->label)
