@@ -119,12 +119,12 @@ trait FieldsValueTrait
                         $fieldsInserted[$field['label']] = $file ;
                     }
                 } else {
-                    $validateData[$field['id']]['value'] = $fieldsInsert[$field['id']] ?? "" ;
+                    $validateData[$field['id']]['value'] = $fieldsInsert[$this->form->id][$field['id']] ?? "" ;
                     $validateData[$field['id']]['type'] = $field['type_variable'] ;
-                    $fieldsInserted[$field['label']] = $fieldsInsert[$field['id']] ?? "";
+                    $fieldsInserted[$field['label']] = $fieldsInsert[$this->form->id][$field['id']] ?? "";
                 }
 
-                if ( ! ( $field['type_variable'] == 'file' and Request()->has('dynamicFormsHash.'.$field['id']) and Hash::check($fieldsInsert[$field['id']] , Request()->get('dynamicFormsHash')[$field['id']] ) ) ){
+                if ( ! ( $field['type_variable'] == 'file' and Request()->has('dynamicFormsHash.'.$field['id']) and Hash::check($fieldsInsert[$this->form->id][$field['id']] , Request()->get('dynamicFormsHash')[$field['id']] ) ) ){
                     $validateRules[$field['label']] = implode('|',array_unique($validateRulesLocal[$field['label']]));
                 }
             }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Fields extends Model
 {
-    protected $fillable = [ 'forms_id' , 'label' , 'description' , 'font_icon' , 'values' , 'validate' , 'type_variable' , 'status' , 'order_number' , 'css_class'];
+    protected $fillable = [ 'forms_id' , 'label' , 'description' , 'font_icon' , 'values' , 'validate' , 'type_variable' , 'status' , 'order_number' , 'blade_template'];
 
     public function form(){
         return $this->belongsTo(Forms::class);

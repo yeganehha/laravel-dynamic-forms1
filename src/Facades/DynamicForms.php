@@ -6,6 +6,7 @@ use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @method static DynamicForms form(Mixed $formName ,Mixed $model,Boolean $extend_table = false) Make new or import form.
+ * @method static DynamicForms findById(Integer $form_id) import form from ID.
  * @method static DynamicForms|false exist(Mixed $formName) check form exist.
  * @method static boolean getTable() this form use external table or not.
  * @method static DynamicForms setTable(Boolean $isExternal) set form use external table or not.
@@ -22,6 +23,9 @@ use phpDocumentor\Reflection\Types\Integer;
  * @method static DynamicForms showHidden(Boolean $show = true) show hidden fields of form.
  * @method static DynamicForms editForm() set form for edit fill outed form.
  * @method static DynamicForms view() generate form for blade.
+ * @method static string renderEditor() generate html output for form editor.
+ * @method static string render() generate html output.
+ * @method static string __toString() generate html output.
  * @method static int|DynamicForms getId(Boolean $ViewVariable = false) get id of form.
  * @method static Boolean getError() get form has error.
  * @method static DynamicForms addFieldType(String $name ,String $label = null ,String $view = null) creat new field type.
