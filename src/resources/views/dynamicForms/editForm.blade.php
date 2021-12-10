@@ -166,7 +166,7 @@
                             <div class="col-md-12">
                                 <select class="form-control"  name="moreField[{{$DynamicFormsId}}][{{ $key }}][blade_template]" data-size="7" data-style="btn btn-outline-info btn-round" title="Type">
                                     @foreach($DynamicFormsTemplate[$DynamicFormsId] as $bladeFile => $bladeLabel )
-                                        <option value="{{$bladeFile}}" @if ( $field->blade_template == $fieldType['name'] ) selected @endif>{{$bladeLabel}}</option>
+                                        <option value="{{$bladeFile}}" @if ( $field->blade_template == $bladeFile ) selected @endif>{{$bladeLabel}}</option>
                                     @endforeach
                                 </select>
                             </div>
