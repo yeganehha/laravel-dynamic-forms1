@@ -158,12 +158,15 @@ trait FieldsValueTrait
 
         if ( ( $autoDetectData and Request()->has('dynamicForms') and  $this->FillOutData == null ) or ( !$autoDetectData and $this->FillOutData != null ) ){
             if ( $autoDetectData and Request()->has('dynamicForms') and  $this->FillOutData == null ){
-                $this->FillOutData = Request()->get('dynamicForms');
+                $FillOutData = Request()->get('dynamicForms');
             }
+            if ( !$autoDetectData and $this->FillOutData != null )
+                $FillOutData = $this->FillOutData;
+
             $this->FillOutError = false ;
             DB::beginTransaction();
             try {
-                $validateData = $this->validateData($this->FillOutData);
+                $validateData = $this->validateData($FillOutData);
                 if ( $this->FillOutError === false ){
                     $this->setFillOutedForm($model,$validateData);
                     DB::commit();

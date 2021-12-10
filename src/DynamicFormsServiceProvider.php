@@ -37,6 +37,7 @@ class DynamicFormsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'dynamicForms' => resource_path('views/vendor/dynamicForms'),
             __DIR__.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'lang' => resource_path('lang/vendor/dynamicForms'),
+            __DIR__.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR.'migrations' => database_path('migrations'),
         ]);
         $this->configureComponents();
     }
